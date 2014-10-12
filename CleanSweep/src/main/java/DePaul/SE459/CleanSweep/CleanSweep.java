@@ -7,7 +7,7 @@ public class CleanSweep
     String filePath;
     if (args.length == 0)
       {
-      filePath = "floorplans\\samplehome1.xml";
+      filePath = "floorplans//samplehome0.xml";
       }
     else
       {
