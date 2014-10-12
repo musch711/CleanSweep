@@ -1,10 +1,15 @@
 package DePaul.SE459.CleanSweep;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FloorPlan {
-    private ArrayList<Floor> floors;
+    private List<Floor> floors;
 
+    public FloorPlan()
+    {
+        floors = new ArrayList<>();
+    }
     /**
      *
      * @param floorNum
