@@ -17,14 +17,6 @@ public class CleanSweep
     try
       {
       FloorPlan testFloorPlan = FloorPlanUtility.loadFloorPlan(filePath);
-
-      for (int i = 0; i < testFloorPlan.numberOfFloors(); i++)
-        {
-        Floor floor = testFloorPlan.getFloor(i);
-        System.out.println("Scanning floor " + floor.getLevel() + "...");
-        System.out.println("-------------------------------");
-        floor.testMethod();
-        }
       }
     catch (Exception e)
       {
