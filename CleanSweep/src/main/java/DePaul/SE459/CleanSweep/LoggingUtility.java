@@ -4,6 +4,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Logs activity to console and to file in the tracking directory.
@@ -48,7 +51,25 @@ public final class LoggingUtility {
         
         public static void logDiscoveredFloorPlan(FloorPlan fp)
         {
+            StringBuilder sb = new StringBuilder();
             
+            List<Floor> floors = fp.getFloors();
+            Iterator<Floor> floorIterator = floors.iterator();
+            while (floorIterator.hasNext())
+            {
+                Floor f = floorIterator.next();
+                sb.append("---Begin Floor ").append(f.getLevel()).append("---\n");
+                Map<Integer,Tile> m = f.getTiles();
+                Iterator<Map.Entry<Integer, Tile>> it = m.entrySet().iterator();
+                while (it.hasNext())
+                {
+                    Tile t = it.next().getValue();
+                    sb.append("Tile: x=").append(t.getX()).append(" y=").append(t.getY());
+                    sb.append(" ss=").append(t.getSurfaceType()).append(" ds=").append(t.getDirtAmount()).append("\n");
+                }
+                sb.append("---End Floor ").append(f.getLevel()).append("---\n");
+            }
+            writeToFile("logDiscoveredFloorPlan.txt", sb.toString());
         }
 	
 	

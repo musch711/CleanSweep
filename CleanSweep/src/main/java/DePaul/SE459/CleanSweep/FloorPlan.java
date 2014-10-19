@@ -19,6 +19,14 @@ public class FloorPlan {
         return floors.get(floorNum);
     }
 
+     /**
+     *
+     * @return List of Floors
+     */
+    public List<Floor> getFloors() {
+        return this.floors;
+    }
+
     /**
      *
      * @param f
