@@ -23,8 +23,8 @@ public final class LoggingUtility {
 	 * Logs discovered floor plan by the clean sweep.
 	 * @param cell A string representing the information of the Tile (ie. <cell x = 0, y = 0, ss = 2, ps = 1212, cs = 1 />)
 	 */
-	public static void LogDiscoveredFloorPlan(String cell) {
-		writeToFile("discoveredFloorPlan.txt", cell);
+	public static void logDiscoveredCell(String cell) {
+		writeToFile("logDiscoveredCell.txt", cell);
 	}
 
 		/**
@@ -45,6 +45,11 @@ public final class LoggingUtility {
 		String msg = "Current location at tile: (" + t.getX() + ", " + t.getY()+ ")";
 		writeToFile("movement.txt", msg);
 	}
+        
+        public static void logDiscoveredFloorPlan(FloorPlan fp)
+        {
+            
+        }
 	
 	
 	private static void writeToFile(String fileName, String msg) {
