@@ -39,6 +39,11 @@ class Floor {
 	public void setHomeTile(Tile home) {
 		this.homeTile = home;
 	}
+        
+        public Map<Integer, Tile> getTiles()
+        {
+            return this.tiles;
+        }
 	
 	public void buildAdjacentTiles() {
 		Iterator<Entry<Integer, Tile>> it = tiles.entrySet().iterator();
