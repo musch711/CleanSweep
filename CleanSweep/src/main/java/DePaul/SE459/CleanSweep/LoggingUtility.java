@@ -19,6 +19,14 @@ public final class LoggingUtility {
 		writeToFile("cleaning.txt", msg);
 	}
 
+	/**
+	 * Logs discovered floor plan by the clean sweep.
+	 * @param cell A string representing the information of the Tile (ie. <cell x = 0, y = 0, ss = 2, ps = 1212, cs = 1 />)
+	 */
+	public static void LogDiscoveredFloorPlan(String cell) {
+		writeToFile("discoveredFloorPlan.txt", cell);
+	}
+	
 	private static void writeToFile(String fileName, String msg) {
 		FileWriter fw;
 		BufferedWriter bw = null;
