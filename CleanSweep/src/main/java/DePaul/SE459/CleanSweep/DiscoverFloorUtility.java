@@ -37,7 +37,7 @@ public class DiscoverFloorUtility
 		
 		String cell = "<cell x = " + x + ", y = " + y + ", ss = " + ss + ", ps = " + obstacles + ", ds = " + ds + ", cs = " + charging + " />";
 		
-		LoggingUtility.LogDiscoveredFloorPlan(cell);
+		LoggingUtility.logDiscoveredCell(cell);
 	}
 	
 	// Given a tile, determines the obstacles around it.
