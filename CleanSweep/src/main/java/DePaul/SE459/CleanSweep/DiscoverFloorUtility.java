@@ -45,13 +45,13 @@ public class DiscoverFloorUtility
 	{
 		StringBuilder sb = new StringBuilder();
 		
-		int left = tile.getLeftPath();
 		int right = tile.getRightPath();
+		int left = tile.getLeftPath();
 		int upper = tile.getUpperPath();
-		int lower = tile.getLeftPath();
+		int lower = tile.getLowerPath();
 		
-		sb.append(left);
 		sb.append(right);
+		sb.append(left);
 		sb.append(upper);
 		sb.append(lower);
 		
