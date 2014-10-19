@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 class Floor {
 	private Map<Integer, Tile> tiles;
 	private int level;
+	private Tile homeTile;
 
 	public Floor(int l) {
 		this.level = l;
@@ -31,6 +32,14 @@ class Floor {
 		return this.tiles.size();
 	}
 
+	public Tile getHomeTile() {
+		return homeTile;
+	}
+
+	public void setHomeTile(Tile home) {
+		this.homeTile = home;
+	}
+	
 	public void buildAdjacentTiles() {
 		Iterator<Entry<Integer, Tile>> it = tiles.entrySet().iterator();
 		System.out.println("-----------------------Tile Adjacency For Floor Level " + getLevel() + "-----------------------");
@@ -38,6 +47,11 @@ class Floor {
 			Map.Entry<Integer, Tile> pairs = it.next();
 			Tile currentTile = pairs.getValue();
 
+			if (currentTile.isChargingStation())
+			{
+				setHomeTile(currentTile);
+			}
+			
 			if (currentTile.getRightPath() < 2) {
 				Tile rightTile = getTile(currentTile.getX() + 1, currentTile.getY());
 
