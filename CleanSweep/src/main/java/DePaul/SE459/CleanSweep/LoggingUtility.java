@@ -21,7 +21,7 @@ public final class LoggingUtility {
 
 	/**
 	 * Logs discovered floor plan by the clean sweep.
-	 * @param cell A string representing the information of the Tile (ie. <cell x = 0, y = 0, ss = 2, ps = 1212, cs = 1 />)
+	 * @param cell A string representing the information of the Tile (ie. <cell x = 0, y = 0, ss = 2, ps = 1212, ds = 1, cs = 1 />)
 	 */
 	public static void LogDiscoveredFloorPlan(String cell) {
 		writeToFile("discoveredFloorPlan.txt", cell);
