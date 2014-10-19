@@ -26,6 +26,26 @@ public final class LoggingUtility {
 	public static void LogDiscoveredFloorPlan(String cell) {
 		writeToFile("discoveredFloorPlan.txt", cell);
 	}
+
+		/**
+	 * Logs current location to disk and to console to track Clean Sweep's movement.
+	 * @param int x: The x-coordinate of the Tile that was cleaned.
+	 * @param int y: The y-coordinate of the Tile that was cleaned.
+	 */
+	public static void logMovement(int x, int y){
+		String msg = "Current location at tile: (" + x + ", " + y + ")";
+		writeToFile("movement.txt", msg);
+	}
+
+	/**
+	 * Logs current location to disk and to console to track Clean Sweep's movement.
+	 * @param Tile t = the current tile the Clean Sweep is on
+	 */
+	public static void logMovement(Tile t){
+		String msg = "Current location at tile: (" + t.getX() + ", " + t.getY()+ ")";
+		writeToFile("movement.txt", msg);
+	}
+	
 	
 	private static void writeToFile(String fileName, String msg) {
 		FileWriter fw;
@@ -38,7 +58,7 @@ public final class LoggingUtility {
 			File outputFile = new File("tracking", fileName);
 
 			if (outputFile.createNewFile()) {
-				System.out.println("new file created");
+				System.out.println("New file created: " + fileName);
 			}
 
 			fw = new FileWriter(outputFile.getPath(), true);
