@@ -91,7 +91,7 @@ class Floor {
 								   + " does not exist because path is blocked.");
 			}
 			if (currentTile.getLowerPath() < 2) {
-				Tile lowerTile = getTile(currentTile.getX(), currentTile.getY() + 1);
+				Tile lowerTile = getTile(currentTile.getX(), currentTile.getY() - 1);
 
 				if (lowerTile != null) {
 					currentTile.setLowerTile(lowerTile);
@@ -110,7 +110,7 @@ class Floor {
 								   + " does not exist because path is blocked.");
 			}
 			if (currentTile.getUpperPath() < 2) {
-				Tile upperTile = getTile(currentTile.getX(), currentTile.getY() - 1);
+				Tile upperTile = getTile(currentTile.getX(), currentTile.getY() + 1);
 
 				if (upperTile != null) {
 					currentTile.setUpperTile(upperTile);

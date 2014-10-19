@@ -59,9 +59,9 @@ public class FloorPlanUtility {
 
 						int right = Integer.parseInt(paths.substring(0, 1));
 						int left = Integer.parseInt(paths.substring(1, 2));
-						int down = Integer.parseInt(paths.substring(2, 3));
-						int up = Integer.parseInt(paths.substring(3, 4));
-
+						int up = Integer.parseInt(paths.substring(2, 3));
+						int down = Integer.parseInt(paths.substring(3, 4));
+						
 						int dirt = Integer.parseInt(cellElements.getAttribute("ds"));
 						int charge = Integer.parseInt(cellElements.getAttribute("cs"));
 
