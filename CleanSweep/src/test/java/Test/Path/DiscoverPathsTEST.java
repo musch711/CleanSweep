@@ -1,6 +1,7 @@
-package DePaul.SE459.CleanSweep;
+package Test.Path;
 
-
+import DePaul.SE459.CleanSweep.DiscoverPaths;
+import DePaul.SE459.CleanSweep.Tile;
 import junit.framework.TestCase;
 
 public class DiscoverPathsTEST extends TestCase{
