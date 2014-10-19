@@ -25,16 +25,17 @@ public class DiscoverFloorUtility
 	
 	// Discovers information about current tile, and begins to construct/discover the floor plan
 	// Saves to text file in the following format:
-	// <cell x = 0, y = 0, ss = 2, ps = 1212, cs = 1 />
+	// <cell x = 0, y = 0, ss = 2, ps = 1212, ds = 1, cs = 1 />
 	public static void discoverCurrentTile(Tile tile)
 	{
 		int x = tile.getX();                         // x position
 		int y = tile.getY();                         // y position
 		int ss = tile.getSurfaceType();              // Surface Type 
 		String obstacles = discoverObstacles(tile);  // Path Attributes
+		int ds = tile.getDirtAmount();               // Dirt Sensor 
 		boolean charging = tile.isChargingStation(); // Contains Charging Station?
 		
-		String cell = "<cell x = " + x + ", y = " + y + ", ss = " + ss + ", ps = " + obstacles + ", cs = " + charging + " />";
+		String cell = "<cell x = " + x + ", y = " + y + ", ss = " + ss + ", ps = " + obstacles + ", ds = " + ds + ", cs = " + charging + " />";
 		
 		LoggingUtility.LogDiscoveredFloorPlan(cell);
 	}
