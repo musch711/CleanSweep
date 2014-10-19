@@ -102,7 +102,7 @@ public class Tile {
 	 * 1 = open
 	 * 2 = obstacle
 	 * 4 = stairs
-	 * @param leftPath
+	 * @param lp
 	 */
 	public void setLeftPath(int lp) {
 		this.leftPath = lp;
