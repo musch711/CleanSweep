@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-class Floor {
+public class Floor {
 	private Map<Integer, Tile> tiles;
 	private int level;
 	private Tile homeTile;
