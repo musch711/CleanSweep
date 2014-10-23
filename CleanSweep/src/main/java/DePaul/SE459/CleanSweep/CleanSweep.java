@@ -8,7 +8,7 @@ public class CleanSweep {
 	}
 
 	public void run() {
-		// TODO: implement CleanSweep
+		// TODO: implement entry point for CleanSweep
 		
 		System.out.println("CleanSweep has finished cleaning.");
 	}
