@@ -7,7 +7,7 @@ public class CleanSweep
     String filePath;
     if (args.length == 0)
       {
-      filePath = "floorplans//samplehome1.xml";
+      filePath = "floorplans//samplehome0.xml";
       }
     else
       {
@@ -17,7 +17,6 @@ public class CleanSweep
     try
       {
       FloorPlan testFloorPlan = FloorPlanUtility.loadFloorPlan(filePath);
-      LoggingUtility.logDiscoveredFloorPlan(testFloorPlan);
       }
     catch (Exception e)
       {
