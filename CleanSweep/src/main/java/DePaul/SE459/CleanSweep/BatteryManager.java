@@ -1,15 +1,38 @@
 package DePaul.SE459.CleanSweep;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class BatteryManager {
 	private static final int MAX_BATTERY_CAPACITY = 50;
 	private double currentBatteryLevel;
 	private Tile homeTile;
 	private Tile lastVisitedTile;
+	private Map<Integer, Tile> allVisitedTiles;
 
 		
 	public BatteryManager(Tile homeTile) {
 		this.homeTile = homeTile;
 		chargeBattery();
+		allVisitedTiles = new Hashmap<>();
+	}
+
+	public int numberOfVisitedTiles() {
+		return allVisitedTiles.size();
+	}
+
+	public Map<Integer, Tile> getTiles()
+    {
+        return allVisitedTiles;
+    }
+
+    public void addTile(Tile t) {
+		allVisitedTiles.put(t.getCoordinateHashCode(), t);
+	}
+
+	public Tile getTile(int x, int y) {
+		Coordinate c = new Coordinate(x, y);
+		return allVisitedTiles.get(c.hashCode());
 	}
 	
 	/**
