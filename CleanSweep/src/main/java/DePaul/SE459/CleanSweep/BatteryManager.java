@@ -14,7 +14,7 @@ public class BatteryManager {
 	public BatteryManager(Tile homeTile) {
 		this.homeTile = homeTile;
 		chargeBattery();
-		allVisitedTiles = new Hashmap<>();
+		allVisitedTiles = new HashMap<>();
 	}
 
 	public int numberOfVisitedTiles() {
