@@ -256,4 +256,14 @@ public class Tile {
 	public Integer getCoordinateHashCode() {
 		return (Integer) this.coordinate.hashCode();
 	}
+        
+        /*
+        * This method returns true if the tiles are the same, otherwise false
+        * @param t The tile to compare with
+        * @return boolean
+        */
+        public boolean sameTile(Tile t)
+        {
+            return this.getX()==t.getX()&&this.getY()==t.getY();
+        }
 }
