@@ -4,6 +4,8 @@ public class BatteryManager {
 	private static final int MAX_BATTERY_CAPACITY = 50;
 	private double currentBatteryLevel;
 	private Tile homeTile;
+	private Tile lastVisitedTile;
+
 		
 	public BatteryManager(Tile homeTile) {
 		this.homeTile = homeTile;
@@ -110,5 +112,15 @@ public class BatteryManager {
 	 */
 	public void chargeBattery() {
 		this.currentBatteryLevel = MAX_BATTERY_CAPACITY;
+	}
+
+	/*update the lastVisitedTile to the currentTile so that the CleanSweep knows where to return from after 
+	* charging, and where to calculate the shortest path from
+	*/
+	public void setLastVisitedTile(Tile currentTile){
+		lastVisitedTile = currentTile;
+	}
+	public Tile getLastVisitedTile(){
+		return lastVisitedTile;
 	}
 }
