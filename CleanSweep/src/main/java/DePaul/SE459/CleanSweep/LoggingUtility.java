@@ -49,6 +49,14 @@ public final class LoggingUtility {
 		writeToFile("movement.txt", msg);
 	}
         
+    public static void logPath(List<Tile> path)
+    {
+        for (Tile t: path)
+        {
+            LoggingUtility.logMovement(t);
+        }
+    }
+        
     public static void logDiscoveredFloorPlan(FloorPlan fp)
     {
         StringBuilder sb = new StringBuilder();
