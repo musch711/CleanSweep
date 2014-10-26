@@ -8,7 +8,11 @@ import java.util.Map;
 public class CleanSweep {
 	private Tile homeTile;
         private Tile currentTile;
+        //Contains information about all visited tiles as well as all adjacent tiles of tiles we have visited
         private Map<Integer, Tile> internalMap;
+        //Contains list of tiles that have been visited
+        private List<Tile> visitedTiles;
+        //Contains list of tiles that have not been directly accessed
         private List<Tile> unvisitedTiles;
         
 	public CleanSweep(Tile ht) {
@@ -24,12 +28,20 @@ public class CleanSweep {
     
         public void cleanFloor()
         {
-            
-            
+            //add surrounding tiles to unvisited tiles
+            //add current and surrounding tiles to internal map
+            //add current tile to visited list
+            //while unvisitedTiles is not empty
+                //move to closest tile from unvisitedTile list
+                //use getNextTile method
+                //add surrounding tiles to unvisited tiles, if not in visited list
+                //add current and surrounding tiles to internal map, if not in map
+                //clean the tile (set dirt to 0)
+                //add tile to visited list
+                //remove tile from unvisitedTiles
         }
         /**
 	 * Stupid move.  Does not utilize internalMap to determine next movement
-	 * TODO: populate CleanSweep's internalMap object
 	 * @param destination The target destination for the CleenSweep
 	 * @return List The path the CleanSweep traversed to get to the destination
 	 */
