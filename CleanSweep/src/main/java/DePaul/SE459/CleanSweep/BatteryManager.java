@@ -2,6 +2,9 @@ package DePaul.SE459.CleanSweep;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class BatteryManager {
 	private static final int MAX_BATTERY_CAPACITY = 50;
@@ -145,5 +148,57 @@ public class BatteryManager {
 	}
 	public Tile getLastVisitedTile(){
 		return lastVisitedTile;
+	}
+
+		/*
+	 * IN PROGRESS...
+	 * A method to calculate the shortest path... started out thinking arrays would be needed
+	 * for tiles and their weights, but now thinking that a priority queue might be
+	 * a better option after researching more shortest path algorithms...
+	 * Need to think about this some more.
+	 */
+	public List<Tile> calculateShortestPathToCS(){
+		
+		int weightOfShortestPath = 0;
+		
+		//get the number of tiles in the hashmap
+		int numVisited = numberOfVisitedTiles();
+		
+		//create an array for all visited tiles
+		Tile[] allTiles = new Tile[numVisited];
+		
+		//create an array for the weights to that tile
+		double[] tileWeights = new double[numVisited];
+		
+		//create an arraylist to store the shortest path
+		ArrayList<Tile> shortestPath = new ArrayList<Tile>();
+		
+		//get each tile in the hashmap and add each one to the allTiles array
+		//TODO
+		
+		
+		//initialize all the weights to infinity
+		for(int i = 0; i<numVisited; i++){
+			tileWeights[i] = Double.POSITIVE_INFINITY;
+		}
+		
+		//set the weight of the source tile (lastVisitedTile) to 0 
+		//and then add the source tile to the shortestPath ArrayList
+		int index=0;
+		Tile sourceTile = getLastVisitedTile();
+		for(int i = 0; i<numVisited; i++){
+			if(allTiles[i] == sourceTile){
+				index = i;
+			}
+		}
+		tileWeights[index] = 0;
+		shortestPath.add(sourceTile);
+		
+		
+		
+		//... (incomplete)
+		
+		
+		return shortestPath;
 	}
 }
