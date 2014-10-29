@@ -279,20 +279,20 @@ public class Tile {
 		return (Integer) this.coordinate.hashCode();
 	}
         
-        /*
-        * This method returns true if the tiles are the same, otherwise false
-        * @param t The tile to compare with
-        * @return boolean
-        */
-        public boolean sameTile(Tile t)
-        {
-            return this.getX()==t.getX()&&this.getY()==t.getY();
-        }
-        
-        public double distance(Tile t)
-        { 
-            double x = Math.pow(this.getX()-t.getX(), 2);
-            double y = Math.pow(this.getY()-t.getY(), 2);
-            return Math.sqrt(x+y);
-        }
+    /*
+    * This method returns true if the tiles are the same, otherwise false
+    * @param t The tile to compare with
+    * @return boolean
+    */
+    public boolean sameTile(Tile t)
+    {
+        return this.getX()==t.getX()&&this.getY()==t.getY();
+    }
+    
+    public double distance(Tile t)
+    { 
+        double x = Math.pow(this.getX()-t.getX(), 2);
+        double y = Math.pow(this.getY()-t.getY(), 2);
+        return Math.sqrt(x+y);
+    }
 }
