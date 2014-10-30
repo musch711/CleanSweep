@@ -1,6 +1,7 @@
 package DePaul.SE459.CleanSweep;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.PriorityQueue;
 
@@ -21,6 +22,7 @@ public class ShortestPath {
 	Vertex destination;
 	PriorityQueue<Vertex> pq;
 	double weightOfShortestPath;
+
 
 	/*
 	 * getShortestPath()
@@ -60,7 +62,41 @@ public class ShortestPath {
 		double totalWeight = shortestPath.get(size-1).getDistanceFromSource();
 		setWeightOfShortestPath(totalWeight);
 		
+		
+		/* shortestPath up to this point has been calculating distances for each vertex at that index,
+		 * not in the sequence from source to destination.. so need to create ArrayList actualShortestPath to 
+		 * backtrack from destination, parent of current vertex, until reach source
+		*/
+		List<Vertex> actualShortestPath = new ArrayList<Vertex>();
+		Vertex v;
+		v = shortestPath.get(shortestPath.size()-1);
+		actualShortestPath.add(v);
+		while(v!=shortestPath.get(0)){
+			v = v.getParent();
+			actualShortestPath.add(v);
+		}
+		//set the actualShortestPath to shortestPath (will have to change these variables later)
+		//List<Vertex> tempShortestPath = shortestPath; 
+		shortestPath = actualShortestPath;
+		Collections.reverse(shortestPath); //reverse it so that it's in order from source to destination
 		return shortestPath;
+	}
+	/*
+	 * was used for testing things out when things went wrong... helped fix shortestPath bug
+	 * and this actuallly prints the path
+	 */
+	public void printShortestPath(){
+		/*Vertex v;
+		v = shortestPath.get(shortestPath.size()-1);
+		
+		System.out.println("Tile: "+v.toString());
+		while(v!=shortestPath.get(0)){
+			v = v.getParent();
+			System.out.println("Tile: "+v.toString());
+		}*/
+		for(int i = 0; i<shortestPath.size(); i++){
+			System.out.println(shortestPath.get(i).toString());
+		}
 	}
 	
 	private void setWeightOfShortestPath(double weight){
