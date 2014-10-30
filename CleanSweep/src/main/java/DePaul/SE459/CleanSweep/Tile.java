@@ -246,27 +246,7 @@ public class Tile {
 		this.chargingStation = isCs;
 	}
 
-	/*isSameTileAs method - to compare if a tile = another tile
-	* very very similar to an isEquals method, but without dirt information
-	* since dirt level changes throughout cleaning cycles
-	* 
-	* used by the ShortestPath class
-	*/
-	public boolean isSameTileAs(Object that){
-		if(that == null) return false;
-		if(!(that instanceof Tile)) return false;
-		if(this == that) return true;
-		
-		Tile other = (Tile) that;
-		if(other.getX()==this.getX() && other.getY()==this.getY() && this.getSurfaceType()==other.getSurfaceType() && 
-				other.getRightPath() == this.getRightPath() && this.getLeftPath()==other.getLeftPath() &&
-				this.getLowerPath()==other.getLowerPath() && this.getUpperPath()==other.getUpperPath() &&
-				this.isChargingStation()==other.isChargingStation()){
-			return true;
-		}
-				
-		return false;
-	}
+
 
 	/**
 	* 
