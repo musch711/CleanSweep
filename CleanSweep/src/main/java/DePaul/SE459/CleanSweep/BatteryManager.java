@@ -87,7 +87,7 @@ public class BatteryManager {
 	 *   high to high:              = 3
 	 * @return The cost, in battery life, of moving from Tile A to Tile B.
 	 */
-	private static double calculateWeight(Tile tileA, Tile tileB) {
+	public static double calculateWeight(Tile tileA, Tile tileB) {
 		double weight = 0;
 		// if moving from bare floor to bare floor
 		if (tileA.getSurfaceType() == 1 && tileB.getSurfaceType() == 1)
@@ -131,6 +131,7 @@ public class BatteryManager {
 	 */
 	public void decrementBatteryLevel(Tile tileA, Tile tileB) {
 		this.currentBatteryLevel -= calculateWeight(tileA, tileB);
+		//System.out.println("Battery level is " + currentBatteryLevel);
 	}
 	
 	/**
