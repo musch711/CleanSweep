@@ -217,12 +217,12 @@ public class CleanSweep {
 	 * @param unvisitedTile list: Tiles that have yet to be visited
 	 * @return Tile: The tile the vacuum should move to next
 	 */
-    private Tile getNextTile(List<Tile> prospectiveTiles)
+    private Tile getNextTile(List<Tile> unvisitedTiles)
     {
-        Tile nextTile = prospectiveTiles.get(0);
+        Tile nextTile = unvisitedTiles.get(0);
         double shortestDistance = Double.MAX_VALUE;
         
-        for (Tile t : prospectiveTiles)
+        for (Tile t : unvisitedTiles)
         {
             double currentDistance = currentTile.distance(t);
             if (currentDistance < shortestDistance)
