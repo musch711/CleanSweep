@@ -45,7 +45,7 @@ public class ShortestPath {
 		for(int i = 0; i<visitedTiles.size(); i++){
 			//if the tile is not the source or destination, then create a vertex
 			//and add to the allVertices array
-			if(!(visitedTiles.get(i).isSameTileAs(source)|| visitedTiles.get(i).isSameTileAs(destination))){
+			if(!(visitedTiles.get(i).sameTile(source)|| visitedTiles.get(i).sameTile(destination))){
 				//don't create new tile, but add to arraylist
 				allVertices[i+2] = new Vertex(visitedTiles.get(i));
 			}
@@ -119,13 +119,13 @@ public class ShortestPath {
 class Vertex implements Comparable<Vertex>{
 	Tile tile;
 	Vertex[] neighbors; //the discovered adjacent tiles = the vertex's neighbors
-	double distanceToDestination;
+	double distanceFromSource;
 	Vertex parent; //the vertex/tile that led to the current tile
 
 	protected Vertex(Tile t){
 		tile = t;
 		neighbors = new Vertex[4]; //index 0: up, 1:down, 2:left; 3:right
-		distanceToDestination = Double.POSITIVE_INFINITY; //initialize its distance to infinity
+		distanceFromSource = Double.POSITIVE_INFINITY; //initialize its distance from source to POSITIVE_INFINITY
 		parent = null;
 	}
 	protected void setNeighbor(int index, Vertex neighbor){
@@ -135,14 +135,20 @@ class Vertex implements Comparable<Vertex>{
 	protected Tile getTile(){
 		return tile;
 	}
+	protected void setDistanceFromSource(double distance){
+		distanceFromSource = distance;
+	}
+	protected double getDistanceFromSource(){
+		return distanceFromSource;
+	}
 
 	@Override
 	public int compareTo(Vertex o) {
 		// TODO Auto-generated method stub
-		if(this.distanceToDestination > o.distanceToDestination){
+		if(this.distanceFromSource > o.distanceFromSource){
 			return 1;//the current vertex is larger weight / longer distance to the destination
 		}
-		else if(this.distanceToDestination < o.distanceToDestination){
+		else if(this.distanceFromSource < o.distanceFromSource){
 			return -1;//the current vertex is shorter weight / SHORTER DISTANCE to the destination
 		}
 		else{
@@ -158,7 +164,7 @@ class Edge{
 	//edge constructor
 	protected Edge(Vertex start, Vertex end){
 		endingVertex = end; //set the vertex that's at the end of the edge
-		calculateWeight(start, end); // calculate the weight betwen the 2 vertices
+		calculateWeight(start, end); // calculate the weight between the 2 vertices
 	}
 	
 	
