@@ -9,6 +9,7 @@ import java.util.Iterator;
 public class CleanSweep {
 	private Tile homeTile;
     private Tile currentTile;
+    private BatteryManager battery;
     //Contains information about all visited tiles as well as all adjacent tiles of tiles we have visited
     private Map<Integer, Tile> internalMap;
     //Contains list of tiles that have been visited
@@ -19,15 +20,12 @@ public class CleanSweep {
 	public CleanSweep(Tile ht) {
 		homeTile = ht;
         currentTile = ht;
+        battery = new BatteryManager(homeTile);
         internalMap = new HashMap<>();
         unvisitedTiles = new ArrayList<>();
         visitedTiles = new ArrayList<>();
 	}
 
-	public void run() {
-        System.out.println("CleanSweep has finished cleaning.");
-	}
-    
     public void cleanFloor()
     {
     	//add current tile to visited list
@@ -155,6 +153,7 @@ public class CleanSweep {
             tilesTraversed.add(next);
             unvisitedTiles.remove(next);
             prev = currentTile;
+            battery.decrementBatteryLevel(currentTile, next);
             currentTile = next;
             LoggingUtility.logMovement(next);
         }

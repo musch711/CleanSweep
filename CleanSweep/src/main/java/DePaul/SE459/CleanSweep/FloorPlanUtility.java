@@ -12,7 +12,6 @@ import org.w3c.dom.NodeList;
 
 /**
  * This class contains all of the logic related to loading and dumping floor plans to and from files.
- * TODO: move this to a better place once we have our packages set up. Probably belongs in the sensor program package.
  */
 public class FloorPlanUtility {
 	/**

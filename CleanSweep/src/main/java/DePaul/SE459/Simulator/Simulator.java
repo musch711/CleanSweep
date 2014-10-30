@@ -28,7 +28,7 @@ public class Simulator {
 			if (homeTile != null) {
 				CleanSweep cs = new CleanSweep(homeTile);
 				System.out.println("CleanSweep is starting...");
-				cs.run();
+				cs.cleanFloor();
 			}
 		} catch (Exception e) {
 			System.err.println("Exception in main: " + e.getMessage());
