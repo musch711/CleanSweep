@@ -1,7 +1,5 @@
 package DePaul.SE459.CleanSweep;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,32 +8,11 @@ public class BatteryManager {
 	private static final int MAX_BATTERY_CAPACITY = 50;
 	private double currentBatteryLevel;
 	private Tile homeTile;
-	private Tile lastVisitedTile;
-	private Map<Integer, Tile> allVisitedTiles;
 
 		
 	public BatteryManager(Tile homeTile) {
 		this.homeTile = homeTile;
 		chargeBattery();
-		allVisitedTiles = new HashMap<>();
-	}
-
-	public int numberOfVisitedTiles() {
-		return allVisitedTiles.size();
-	}
-
-	public Map<Integer, Tile> getTiles()
-    {
-        return allVisitedTiles;
-    }
-
-    public void addTile(Tile t) {
-		allVisitedTiles.put(t.getCoordinateHashCode(), t);
-	}
-
-	public Tile getTile(int x, int y) {
-		Coordinate c = new Coordinate(x, y);
-		return allVisitedTiles.get(c.hashCode());
 	}
 	
 	/**
@@ -141,65 +118,17 @@ public class BatteryManager {
 		this.currentBatteryLevel = MAX_BATTERY_CAPACITY;
 	}
 
-	/*update the lastVisitedTile to the currentTile so that the CleanSweep knows where to return from after 
-	* charging, and where to calculate the shortest path from
-	*/
-	public void setLastVisitedTile(Tile currentTile){
-		lastVisitedTile = currentTile;
-	}
-	public Tile getLastVisitedTile(){
-		return lastVisitedTile;
-	}
 
-		/*
-	 * IN PROGRESS...
-	 * A method to calculate the shortest path... started out thinking arrays would be needed
-	 * for tiles and their weights, but now thinking that a priority queue might be
-	 * a better option after researching more shortest path algorithms...
-	 * Need to think about this some more.
+	/*
+	 * getShortestPath: 
+	 * A method to calculate the shortest path back to the charging station
+	 * Calls the ShortestPath class to do all the work
+	 * @param Tile source, Tile destination, list of all visited Tiles
+	 * @return list of tiles in the shortest path in sequence of source-->destination
 	 */
-	public List<Tile> calculateShortestPathToCS(){
-		
-		int weightOfShortestPath = 0;
-		
-		//get the number of tiles in the hashmap
-		int numVisited = numberOfVisitedTiles();
-		
-		//create an array for all visited tiles
-		Tile[] allTiles = new Tile[numVisited];
-		
-		//create an array for the weights to that tile
-		double[] tileWeights = new double[numVisited];
-		
-		//create an arraylist to store the shortest path
-		ArrayList<Tile> shortestPath = new ArrayList<Tile>();
-		
-		//get each tile in the hashmap and add each one to the allTiles array
-		//TODO
-		
-		
-		//initialize all the weights to infinity
-		for(int i = 0; i<numVisited; i++){
-			tileWeights[i] = Double.POSITIVE_INFINITY;
-		}
-		
-		//set the weight of the source tile (lastVisitedTile) to 0 
-		//and then add the source tile to the shortestPath ArrayList
-		int index=0;
-		Tile sourceTile = getLastVisitedTile();
-		for(int i = 0; i<numVisited; i++){
-			if(allTiles[i] == sourceTile){
-				index = i;
-			}
-		}
-		tileWeights[index] = 0;
-		shortestPath.add(sourceTile);
-		
-		
-		
-		//... (incomplete)
-		
-		
+	public List<Tile> getShortestPath(Tile src, Tile dest, List<Tile> allVisitedTiles){
+		ShortestPath getPath = new ShortestPath(src, dest, allVisitedTiles);
+		ArrayList<Tile> shortestPath = (ArrayList<Tile>) getPath.getShortestPath();
 		return shortestPath;
 	}
 }
