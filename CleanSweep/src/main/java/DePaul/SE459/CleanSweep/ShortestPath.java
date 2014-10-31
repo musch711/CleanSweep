@@ -5,127 +5,26 @@ import java.util.Collections;
 import java.util.List;
 import java.util.PriorityQueue;
 
-/*
- * In Progress
- * getShortestPath is little buggy but will fix
- */
 
 /*
- * tile coordinates = the vertices
- * charge between 2 tiles = the edges
+ * ShortestPath class - calculates the shortest path, where weight = power consumption over the distance traveled
+ * Tile coordinates = the vertices
+ * Charge between 2 tiles = the weight = the edges
  */
 public class ShortestPath {
 	List<Vertex> allVertices;
 	List<Edge> allEdges;
 	List<Vertex> shortestPath;
+
 	Vertex source;
 	Vertex destination;
 	PriorityQueue<Vertex> pq;
 	double weightOfShortestPath;
 
-
 	/*
-	 * getShortestPath()
-	 * @return List - Arraylist of vertices - in sequence starting from source at index 0
+	 * ShortestPath constructor
+	 * @params Tile source, Tile destination, visitedTiles Arraylist
 	 */
-	public List<Vertex> getShortestPath(){
-		
-		//do all of this while the heap is not empty OR until the shortestPath list doesn't contain the destination vertex
-		while(!pq.isEmpty() && !shortestPath.contains(destination)){
-			if(pq.peek() != null){
-				Vertex getV = pq.poll(); //get the Vertex with the smallest distance from source that is left in the PQ
-				System.out.println("removed vertex: "+getV.toString());
-
-				shortestPath.add(getV); //add the vertex to the end of the shortestPath sequence
-
-				//get the neighbors of the getV
-				//if their current weight is GREATER than getV's weight + weight between getV and neighbor,
-				//then set their weights, and set their parent to getV
-				Vertex[] getNeighbors = getV.getNeighbors();
-				for(int i = 0; i<4; i++){
-					Vertex neighbor = getNeighbors[i];
-					if(neighbor != null){
-						double sumOfDistances = getV.getDistanceFromSource() +getWeightOfEdge(getV,neighbor);
-						if(neighbor.getDistanceFromSource() > sumOfDistances){
-							//remove it from pq, update neighbor, then readd neighbor to PQ
-							pq.remove(neighbor);
-							neighbor.setParent(getV);
-							neighbor.setDistanceFromSource(sumOfDistances);
-							pq.add(neighbor);
-						}
-					}
-				}
-			}
-		}
-		//set the shortestPath weight:
-		int size = shortestPath.size();
-		double totalWeight = shortestPath.get(size-1).getDistanceFromSource();
-		setWeightOfShortestPath(totalWeight);
-		
-		
-		/* shortestPath up to this point has been calculating distances for each vertex at that index,
-		 * not in the sequence from source to destination.. so need to create ArrayList actualShortestPath to 
-		 * backtrack from destination, parent of current vertex, until reach source
-		*/
-		List<Vertex> actualShortestPath = new ArrayList<Vertex>();
-		Vertex v;
-		v = shortestPath.get(shortestPath.size()-1);
-		actualShortestPath.add(v);
-		while(v!=shortestPath.get(0)){
-			v = v.getParent();
-			actualShortestPath.add(v);
-		}
-		//set the actualShortestPath to shortestPath (will have to change these variables later)
-		//List<Vertex> tempShortestPath = shortestPath; 
-		shortestPath = actualShortestPath;
-		Collections.reverse(shortestPath); //reverse it so that it's in order from source to destination
-		return shortestPath;
-	}
-	/*
-	 * was used for testing things out when things went wrong... helped fix shortestPath bug
-	 * and this actuallly prints the path
-	 */
-	public void printShortestPath(){
-		/*Vertex v;
-		v = shortestPath.get(shortestPath.size()-1);
-		
-		System.out.println("Tile: "+v.toString());
-		while(v!=shortestPath.get(0)){
-			v = v.getParent();
-			System.out.println("Tile: "+v.toString());
-		}*/
-		for(int i = 0; i<shortestPath.size(); i++){
-			System.out.println(shortestPath.get(i).toString());
-		}
-	}
-	
-	private void setWeightOfShortestPath(double weight){
-		if(weightOfShortestPath==Double.POSITIVE_INFINITY){
-			weightOfShortestPath = weight;
-		}
-		else{
-			weightOfShortestPath += weight;
-		}
-	}
-	
-	public double getWeightOfShortestPath(){
-		return weightOfShortestPath;
-	}
-	
-
-	//looks for a specific edge in the allEdges arraylist and returns the weight of that edge
-	public double getWeightOfEdge(Vertex vertexA, Vertex vertexB){
-		Edge getEdge;
-		for(int i = 0; i<allEdges.size(); i++){
-			if(allEdges.get(i).isEdgeBetween(vertexA, vertexB)){
-				getEdge = allEdges.get(i);
-				return getEdge.getWeight();
-
-			}
-		}		
-		return Double.POSITIVE_INFINITY; //should be ok?
-	}
-
 	public ShortestPath(Tile source, Tile destination, List<Tile> visitedTiles){
 		pq = new PriorityQueue<Vertex>();
 
@@ -141,8 +40,95 @@ public class ShortestPath {
 
 		setAllVertices(source, destination, visitedTiles);	
 		setAllEdges(allVertices);
-		
+
 		weightOfShortestPath = Double.POSITIVE_INFINITY;
+	}
+
+	/*
+	 * getShortestPath()
+	 * @return List - Arraylist of vertices - in sequence starting from source at index 0
+	 */
+	public List<Vertex> getShortestPath(){
+		List<Vertex> pathTemp = new ArrayList<Vertex>();
+		//do all of this while the heap is not empty OR until the pathTemp list doesn't contain the destination vertex
+		while(!pq.isEmpty() && !pathTemp.contains(destination)){
+			if(pq.peek() != null){
+				Vertex getV = pq.poll(); //get the Vertex with the smallest distance from source that is left in the PQ
+
+				pathTemp.add(getV); //add the vertex to the end of the pathTemp sequence
+
+				//get the neighbors of the getV
+				//if their current weight is GREATER than getV's weight + weight between getV and neighbor,
+				//then set their weights, and set their parent to getV
+				Vertex[] getNeighbors = getV.getNeighbors();
+				for(int i = 0; i<4; i++){
+					Vertex neighbor = getNeighbors[i];
+					if(neighbor != null){
+						double sumOfDistances = getV.getDistanceFromSource() +getWeightOfEdge(getV,neighbor);
+						if(neighbor.getDistanceFromSource() > sumOfDistances){
+							//remove it from pq, update neighbor, then read neighbor to PQ
+							pq.remove(neighbor);
+							neighbor.setParent(getV);
+							neighbor.setDistanceFromSource(sumOfDistances);
+							pq.add(neighbor);
+						}
+					}
+				}
+			}
+		}
+		//set the pathTemp weight:
+		int size = pathTemp.size();
+		double totalWeight = pathTemp.get(size-1).getDistanceFromSource();
+		setWeightOfShortestPath(totalWeight);
+
+
+		Vertex v;
+		v = pathTemp.get(pathTemp.size()-1);
+		shortestPath.add(v);
+		while(v!=pathTemp.get(0)){
+			v = v.getParent();
+			shortestPath.add(v);
+		}
+		Collections.reverse(shortestPath); //reverse it so that it's in order from source to destination
+		return shortestPath;
+	}
+	/*
+	 * For testing purposes - prints the shortest path to the console
+	 */
+	public void printShortestPath(){
+		for(int i = 0; i<shortestPath.size(); i++){
+			System.out.println(shortestPath.get(i).toString());
+		}
+	}
+
+	private void setWeightOfShortestPath(double weight){
+		if(weightOfShortestPath==Double.POSITIVE_INFINITY){
+			weightOfShortestPath = weight;
+		}
+		else{
+			weightOfShortestPath += weight;
+		}
+	}
+
+	public double getWeightOfShortestPath(){
+		return weightOfShortestPath;
+	}
+
+
+	/*
+	 * getWeightOfEdge - looks for a specific edge in the allEdges arrayList 
+	 * @return the weight of that edge between 2 vertices
+	 */
+	public double getWeightOfEdge(Vertex vertexA, Vertex vertexB){
+		Edge getEdge;
+		for(int i = 0; i<allEdges.size(); i++){
+			if(allEdges.get(i).isEdgeBetween(vertexA, vertexB)){
+				getEdge = allEdges.get(i);
+				return getEdge.getWeight();
+
+			}
+		}		
+		return Double.POSITIVE_INFINITY;
 	}
 
 	public List<Edge> getAllEdges(){
@@ -160,22 +146,6 @@ public class ShortestPath {
 		this.source.setDistanceFromSource(0);
 		pq.add(this.source);
 		pq.add(this.destination);
-		System.out.println("Source is: "+this.source.toString());
-		//System.out.println("first out: "+pq.peek().toString());
-
-		/* TEST:
-		this.destination.setDistanceFromSource(-100);
-		System.out.println("first out: "+pq.peek().toString());
-		pq.remove(this.destination);
-		this.destination.setDistanceFromSource(-100);
-		pq.add(this.destination);
-		System.out.println("first out: "+pq.peek().toString());
-		pq.remove(this.source);
-		this.source.setDistanceFromSource(-200);
-		pq.add(this.source);
-		System.out.println("first out: "+pq.peek().toString());
-		//***NEED TO REMOVE TILE, UPDATE DISTANCE, THEN ADD IT BACK TO PQ WHEN CHANGING DISTANCE/ANYTHINGINVERTEX ***
-		 */
 
 		for(int i = 0; i<visitedTiles.size(); i++){
 			//if the tile is not the source or destination, then create a vertex
@@ -186,10 +156,11 @@ public class ShortestPath {
 				pq.add(createVertex);
 			}
 		}
-		//System.out.println("All done adding to pq... pq's size= "+pq.size());
 	}
 
-	//a fake toString to print allVertices for testing purposes - prints to console when called:
+	/*
+	 * For testing purposes - prints all vertices to console
+	 */
 	public void printAllVerticesToConsole(){
 		System.out.println("All vertices: ");
 		for(int i = 0; i<allVertices.size(); i++){
@@ -259,7 +230,9 @@ public class ShortestPath {
 		}
 	}
 
-	//a fake toString to print allEdges for testing purposes - prints to console when called:
+	/*
+	 * For testing purposes - prints all edges with weights to console
+	 */
 	public void printAllEdgesToConsole(){
 		System.out.println("All edges: ");
 		for(int i = 0; i<allEdges.size(); i++){
@@ -323,7 +296,9 @@ class Vertex implements Comparable<Vertex>{
 		}
 	}
 
-	//toString method for testing purposes:
+	/*
+	 * For testing purposes - returns String of tile coordinates of the Vertex
+	 */
 	public String toString(){
 		return "Tile at ("+tile.getX()+", "+tile.getY()+")";
 	}
@@ -360,12 +335,14 @@ class Edge{
 	public boolean isEdgeBetween(Vertex vertexA, Vertex vertexB){
 		if((this.getStartingVertex().sameAs(vertexA)&&this.getEndingVertex().sameAs(vertexB))
 				|| (this.getStartingVertex().sameAs(vertexB)&&this.getEndingVertex().sameAs(vertexA)))
-		return true; 
+			return true; 
 
 		return false;
 	}
 
-	//toString method for testing purposes
+	/*
+	 * For testing purposes - returns String of Edge's vertices and weights
+	 */
 	public String toString(){
 		return "Edge between "+startingVertex.toString()+" and "+endingVertex.toString()+" --- weight="+weight;
 	}
