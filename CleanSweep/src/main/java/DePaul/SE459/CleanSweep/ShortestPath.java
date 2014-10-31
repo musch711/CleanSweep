@@ -15,7 +15,6 @@ public class ShortestPath {
 	List<Vertex> allVertices;
 	List<Edge> allEdges;
 	List<Vertex> shortestPath;
-
 	Vertex source;
 	Vertex destination;
 	PriorityQueue<Vertex> pq;
@@ -48,7 +47,7 @@ public class ShortestPath {
 	 * getShortestPath()
 	 * @return List - Arraylist of vertices - in sequence starting from source at index 0
 	 */
-	public List<Vertex> getShortestPath(){
+	public List<Tile> getShortestPath(){
 		List<Vertex> pathTemp = new ArrayList<Vertex>();
 		//do all of this while the heap is not empty OR until the pathTemp list doesn't contain the destination vertex
 		while(!pq.isEmpty() && !pathTemp.contains(destination)){
@@ -90,7 +89,13 @@ public class ShortestPath {
 			shortestPath.add(v);
 		}
 		Collections.reverse(shortestPath); //reverse it so that it's in order from source to destination
-		return shortestPath;
+		
+		//change it to return TILES and not Vertices
+		List<Tile> shortestPathInTiles = new ArrayList<Tile>();
+		for(int i = 0; i<shortestPath.size(); i++){
+			shortestPathInTiles.add(shortestPath.get(i).getTile());
+		}
+		return shortestPathInTiles;
 	}
 	/*
 	 * For testing purposes - prints the shortest path to the console
