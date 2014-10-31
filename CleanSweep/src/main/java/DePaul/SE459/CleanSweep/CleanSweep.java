@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Iterator;
+import java.util.Set;
 
 public class CleanSweep {
 	private Tile homeTile;
@@ -26,49 +27,161 @@ public class CleanSweep {
         visitedTiles = new ArrayList<>();
 	}
 
+	/**
+	 * Cleans the floor
+	 */
     public void cleanFloor()
     {
+    	System.out.println("STARTING WITH HOME TILE");
+    	
     	//add current tile to visited list
     	visitedTiles.add(currentTile);
     	
+    	// DEBUGGING
+		System.out.println("------------------ The size of visitedTiles is " + visitedTiles.size() + "-----------------");
+    	
         // Add unvisited surrounding tiles to unvisited tiles
     	surroundingTilesToUnvisted();
+    	
+    	// DEBUGGING
+		System.out.println("------------------ The size of UnvisitedTiles is " + unvisitedTiles.size() + "-----------------");
+		
         
         // Add current and surrounding tiles to internal map
     	internalMap = new HashMap<Integer,Tile>();
     	internalMap = addTilesToInternalMap(internalMap);
     	
+    	
+    	// DEBUGGING
+    	Integer count = internalMap.size();
+    	System.out.println("------------------ The size of the INTERNAL MAP is " + count + "-----------------");
+    	System.out.println("The contents of the INTERNAL MAP:");
+    	// Get a set of the entries
+        Set set = internalMap.entrySet();
+        // Get an iterator
+        Iterator i = set.iterator();
+        // Display elements
+        while(i.hasNext()) 
+        {
+           Map.Entry me = (Map.Entry)i.next();
+           System.out.println(me.getKey() + ": (" + ((Tile) me.getValue()).getX() + ", " + ((Tile) me.getValue()).getY() + ")"); 
+        }
+    	
+        // FOR DEBUGGIG WHILE LOOP
+        int counting = 0;
         
+    	
         //while unvisitedTiles is not empty
     	while(!unvisitedTiles.isEmpty())
     	{
+    		
+    		// FOR DEBUGGING WHILE LOOP
+    		counting++;
+    		System.out.println("\n\n\nIn WHILE LOOP for " + counting + "th time\n\n"); 		
+    		
     		// Determine closest tile from unvisitedTile list
     		Tile nextTile = getNextTile(unvisitedTiles);
     		
+    		// DEBUGGIN FOR 51ST TIME IN LOOP
+    		if(counting == 51)
+    		{
+    			System.out.println("About to call move() with parameter tile: (" + nextTile.getX() + ", " + nextTile.getY() + ")");
+    			System.out.println("Size of visitedTiles list: " + visitedTiles.size());
+    			Iterator<Tile> itr = visitedTiles.iterator();
+                while(itr.hasNext()) 
+                {
+                	Tile element = itr.next(); 
+                	System.out.println("(" + element.getX() + ", " + element.getY() + ")");
+                }
+    		}
     		// Move to closest tile from unvisitedTile list
-    		currentTile = nextTile;
-    		// Add new currentTile to visitedList
+    		//currentTile = nextTile;
+    		move(nextTile);
+    		
+    		// DEBUGGIN FOR 51ST TIME IN LOOP
+    		if(counting == 51)
+    		{
+    			System.out.println("Just called move()");
+    		}
+    		
+    		// Add new currentTile to visitedTiles list
     		visitedTiles.add(currentTile);
+    		
+    		
+    		// DEBUGGING
+    		System.out.println("Now at tile: (" + currentTile.getX() + ", " + currentTile.getY() + ")");
+    		System.out.println("The visitedTiles list should increase and unvisitedTiles list should decrease");
+    		System.out.println("------------------ The size of visitedTiles is " + visitedTiles.size() + "-----------------");
+    		
+    		
     		// Remove new currentTile from unvisitedTiles
     		unvisitedTiles.remove(currentTile);
-    		// Add unvisited surrounding tiles to unvisitedTiles
+    		
+    		
+    		// DEBUGGING
+    		System.out.println("------------------ The size of UnvisitedTiles is " + unvisitedTiles.size() + "-----------------");
+    		
+    		
+    		// Add unvisited surrounding tiles to unvisitedTiles list
     		surroundingTilesToUnvisted();
     		
+    		
+    		// DEBUGGING
+    		System.out.println("Now that we're on a new tile, add surrounding tiles to unvisitedTiles list");
+    		System.out.println("------------------ The size of UnvisitedTiles is " + unvisitedTiles.size() + "-----------------");
+    		System.out.println("Current Tiles in unvisitedTiles list:");
+    		Iterator<Tile> itr = unvisitedTiles.iterator();
+            while(itr.hasNext()) 
+            {
+            	Tile element = itr.next(); 
+            	System.out.println("(" + element.getX() + ", " + element.getY() + ")");
+            }
+            
+    		
     		// Add current and surrounding tiles to internal map, if not in map
+            System.out.println("Now adding new tiles to internalMap");
     		internalMap = addTilesToInternalMap(internalMap);
     		
+    		
+    		// DEBUGGING
+        	Integer counter = internalMap.size();
+        	System.out.println("------------------ The size of the INTERNAL MAP is " + counter + "-----------------");
+        	System.out.println("The contents of the INTERNAL MAP:");
+        	// Get a set of the entries
+            Set setTwo = internalMap.entrySet();
+            // Get an iterator
+            Iterator j = set.iterator();
+            // Display elements
+            while(j.hasNext()) 
+            {
+               Map.Entry me = (Map.Entry)j.next();
+               System.out.println(me.getKey() + ": (" + ((Tile) me.getValue()).getX() + ", " + ((Tile) me.getValue()).getY() + ")"); 
+            }
+            
+    		
     		// Clean the tile (set dirt to 0)
-    		currentTile.setDirtAmount(0);		
+    		currentTile.setDirtAmount(0);	
     	}
+    	
+    	// DEBUGGING
+    	System.out.println("------------------ The size of visitedTiles is " + visitedTiles.size() + "-----------------");
+    	System.out.println("------------------ The size of internalMap is " + internalMap.size() + "-----------------");
+    	
+    	
+    	// TODO: ONCE IT'S DONE CLEANING, THE CLEAN SWEEP SHOULD RETURN TO THE CHARINGING STATION
     }
 
     /**
-	 * Adds current and surrounding tiles to internal map if they aren't already in contained in the map
+	 * Adds current and surrounding tiles to internal map if they aren't already contained in the map
 	 */
     private Map<Integer,Tile> addTilesToInternalMap(Map<Integer, Tile> internalMap)
     {
     	Integer count = internalMap.size();
-    	internalMap.put(count++,currentTile);
+    	
+    	if(!internalMap.containsValue(currentTile))
+    	{
+    		internalMap.put(count,currentTile);
+    	}
     	
     	List<Tile> surroundingTiles = getAvailableMoves(currentTile);
     	
@@ -100,10 +213,11 @@ public class CleanSweep {
         surroundingTiles = getAvailableMoves(currentTile);
         
         // Remove vistedTiles from surroundingTiles
-        if(!visitedTiles.isEmpty())
-        {
-        	surroundingTiles.removeAll(visitedTiles);
-        }
+        surroundingTiles.removeAll(visitedTiles);
+        // Also need to remove unvisited Tiles from surroundingTiles,
+        // because otherwise we may be counting tiles more than once
+        surroundingTiles.removeAll(unvisitedTiles);
+        
         
         // Copy surroundingTiles list to unvistedTiles list
         Iterator<Tile> itr = surroundingTiles.iterator();
@@ -130,7 +244,6 @@ public class CleanSweep {
         
         while(!currentTile.sameTile(destination))
         {
-
             availableTiles = getAvailableMoves(currentTile);
 
             //Ignore prior tiles at first
@@ -138,7 +251,6 @@ public class CleanSweep {
             availableMinusVisited.removeAll(tilesTraversed);
             if (!availableMinusVisited.isEmpty())
             {
-                
                 next = getNextTile(destination, availableMinusVisited);
             }
             else
@@ -151,11 +263,11 @@ public class CleanSweep {
                 }
             }
             tilesTraversed.add(next);
-            unvisitedTiles.remove(next);
+            //unvisitedTiles.remove(next);                                         // NOT SURE IF THIS SHOULD BE HERE  ... Think it's best placed in cleanFloor()  
             prev = currentTile;
-            battery.decrementBatteryLevel(currentTile, next);
+            battery.decrementBatteryLevel(currentTile, next);                    
             currentTile = next;
-            LoggingUtility.logMovement(next);
+            //LoggingUtility.logMovement(next);                                    // CHANGED HERE (Only to making Debugging Easier) ... NEED TO CHANGE BACK
         }
         return tilesTraversed;
     }
@@ -257,10 +369,11 @@ public class CleanSweep {
 
 			if (homeTile != null) {
 				CleanSweep cs = new CleanSweep(homeTile);
-				System.out.println("CleanSweep is starting...");
-				cs.move(floorPlan.getFloor(0).getTile(5, 0)); 
+				//System.out.println("CleanSweep is starting...");
+				//cs.move(floorPlan.getFloor(0).getTile(5, 0)); 
 				
-				//cs.cleanFloor();
+				System.out.println("Clean Floor is starting: .......");
+				cs.cleanFloor();
 			}
 		} catch (Exception e) {
 			System.err.println("Exception in main: " + e.getMessage());
