@@ -227,6 +227,24 @@ public class CleanSweep {
         }
     }
     
+    /**
+	 * Checks to see if the currentTile is dirty. 
+	 * Returns true if the tile is dirty
+	 * @param tile
+	 * @return boolean
+	 */
+    private boolean isTileDirty(Tile tile)
+    {
+    	if(tile.getDirtAmount() > 0)
+    	{
+    		return true;
+    	}
+    	else 
+    	{
+    		return false;
+    	}
+    }
+    
     
     /**
 	 * Stupid move.  Does not utilize internalMap to determine next movement
