@@ -98,7 +98,7 @@ public final class LoggingUtility {
 			fw = new FileWriter(outputFile.getPath(), true);
 			bw = new BufferedWriter(fw);
 
-			System.out.println(msg);
+			//System.out.println(msg);                                          // COMMENTED OUT TO MAKE DEBUGGING EASIER ... NEED TO UNCOMMENT WHEN DONE DEBUGGING
 			bw.write(msg);
 			bw.write(System.getProperty("line.separator"));
 		} catch (IOException e) {

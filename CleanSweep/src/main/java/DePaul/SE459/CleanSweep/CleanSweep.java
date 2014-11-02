@@ -37,21 +37,24 @@ public class CleanSweep {
     	//add current tile to visited list
     	visitedTiles.add(currentTile);
     	
+    	/*
     	// DEBUGGING
 		System.out.println("------------------ The size of visitedTiles is " + visitedTiles.size() + "-----------------");
+    	*/
     	
         // Add unvisited surrounding tiles to unvisited tiles
     	surroundingTilesToUnvisted();
     	
+    	/*
     	// DEBUGGING
 		System.out.println("------------------ The size of UnvisitedTiles is " + unvisitedTiles.size() + "-----------------");
-		
+		*/
         
         // Add current and surrounding tiles to internal map
     	internalMap = new HashMap<Integer,Tile>();
     	internalMap = addTilesToInternalMap(internalMap);
     	
-    	
+    	/*
     	// DEBUGGING
     	Integer count = internalMap.size();
     	System.out.println("------------------ The size of the INTERNAL MAP is " + count + "-----------------");
@@ -69,21 +72,23 @@ public class CleanSweep {
     	
         // FOR DEBUGGIG WHILE LOOP
         int counting = 0;
-        
+        */
     	
         //while unvisitedTiles is not empty
     	while(!unvisitedTiles.isEmpty())
     	{
-    		
+    		/*
     		// FOR DEBUGGING WHILE LOOP
     		counting++;
     		System.out.println("\n\n\nIn WHILE LOOP for " + counting + "th time\n\n"); 		
+    		*/
     		
     		// Determine closest tile from unvisitedTile list
     		Tile nextTile = getNextTile(unvisitedTiles);
     		
-    		// DEBUGGIN FOR 51ST TIME IN LOOP
-    		if(counting == 51)
+    		/*
+    		// DEBUGGIN FOR 59ST TIME IN LOOP
+    		if(counting == 59)
     		{
     			System.out.println("About to call move() with parameter tile: (" + nextTile.getX() + ", " + nextTile.getY() + ")");
     			System.out.println("Size of visitedTiles list: " + visitedTiles.size());
@@ -94,38 +99,41 @@ public class CleanSweep {
                 	System.out.println("(" + element.getX() + ", " + element.getY() + ")");
                 }
     		}
+    		*/
+    		
     		// Move to closest tile from unvisitedTile list
-    		//currentTile = nextTile;
     		move(nextTile);
     		
+    		/*
     		// DEBUGGIN FOR 51ST TIME IN LOOP
     		if(counting == 51)
     		{
     			System.out.println("Just called move()");
     		}
+    		*/
     		
     		// Add new currentTile to visitedTiles list
     		visitedTiles.add(currentTile);
     		
-    		
+    		/*
     		// DEBUGGING
     		System.out.println("Now at tile: (" + currentTile.getX() + ", " + currentTile.getY() + ")");
     		System.out.println("The visitedTiles list should increase and unvisitedTiles list should decrease");
-    		System.out.println("------------------ The size of visitedTiles is " + visitedTiles.size() + "-----------------");
-    		
+    		System.out.println("------------------ The size of visitedTiles is " + visitedTiles.size() + " -----------------");
+    		*/
     		
     		// Remove new currentTile from unvisitedTiles
     		unvisitedTiles.remove(currentTile);
     		
-    		
+    		/*
     		// DEBUGGING
-    		System.out.println("------------------ The size of UnvisitedTiles is " + unvisitedTiles.size() + "-----------------");
-    		
+    		System.out.println("------------------ The size of UnvisitedTiles is " + unvisitedTiles.size() + " -----------------");
+    		*/
     		
     		// Add unvisited surrounding tiles to unvisitedTiles list
     		surroundingTilesToUnvisted();
     		
-    		
+    		/*
     		// DEBUGGING
     		System.out.println("Now that we're on a new tile, add surrounding tiles to unvisitedTiles list");
     		System.out.println("------------------ The size of UnvisitedTiles is " + unvisitedTiles.size() + "-----------------");
@@ -136,13 +144,14 @@ public class CleanSweep {
             	Tile element = itr.next(); 
             	System.out.println("(" + element.getX() + ", " + element.getY() + ")");
             }
+            */
             
     		
     		// Add current and surrounding tiles to internal map, if not in map
             System.out.println("Now adding new tiles to internalMap");
     		internalMap = addTilesToInternalMap(internalMap);
     		
-    		
+    		/*
     		// DEBUGGING
         	Integer counter = internalMap.size();
         	System.out.println("------------------ The size of the INTERNAL MAP is " + counter + "-----------------");
@@ -157,6 +166,7 @@ public class CleanSweep {
                Map.Entry me = (Map.Entry)j.next();
                System.out.println(me.getKey() + ": (" + ((Tile) me.getValue()).getX() + ", " + ((Tile) me.getValue()).getY() + ")"); 
             }
+            */
             
     		
     		// Clean the tile (set dirt to 0)
@@ -285,7 +295,7 @@ public class CleanSweep {
             prev = currentTile;
             battery.decrementBatteryLevel(currentTile, next);                    
             currentTile = next;
-            //LoggingUtility.logMovement(next);                                    // CHANGED HERE (Only to making Debugging Easier) ... NEED TO CHANGE BACK
+            LoggingUtility.logMovement(next);                                    
         }
         return tilesTraversed;
     }
@@ -354,7 +364,52 @@ public class CleanSweep {
         for (Tile t : unvisitedTiles)
         {
             double currentDistance = currentTile.distance(t);
-            if (currentDistance < shortestDistance)
+            
+            if (currentDistance == 1)
+            {
+            	// If the tile is below the current tile
+            	if(t.getX() == currentTile.getX() && t.getY() < currentTile.getY())
+            	{
+            		if(currentTile.getLowerPath() == 2 || currentTile.getLowerPath() == 4) { }
+            		else if(currentTile.getLowerPath() == 1)
+            		{
+            			nextTile = t;
+            			shortestDistance = currentDistance;
+            		}
+            	}
+            	// If the tile is above the current tile
+            	else if(t.getX() == currentTile.getX() && t.getY() > currentTile.getY())
+            	{
+            		if(currentTile.getUpperPath() == 2 || currentTile.getUpperPath() == 4) { }
+            		else if(currentTile.getUpperPath() == 1)
+            		{
+            			nextTile = t;
+            			shortestDistance = currentDistance;
+            		}
+            	}
+            	// If the tile is to the left of the current tile 
+            	else if(t.getX() < currentTile.getX() && t.getY() == currentTile.getY())
+            	{
+            		if(currentTile.getLeftPath() == 2 || currentTile.getLeftPath() == 4) { }
+            		else if(currentTile.getLeftPath() == 1)
+            		{
+            			nextTile = t;
+            			shortestDistance = currentDistance;
+            		}
+            	}
+            	// If the tile is to the right of the current tile
+            	else if(t.getX() > currentTile.getX() && t.getY() == currentTile.getY())
+            	{
+            		if(currentTile.getRightPath() == 2 || currentTile.getRightPath() == 4) { }
+            		else if(currentTile.getRightPath() == 1)
+            		{
+            			nextTile = t;
+            			shortestDistance = currentDistance;
+            		}
+            	}
+                
+            }
+            else if (currentDistance < shortestDistance && currentDistance != 1)
             {
                 nextTile = t;
                 shortestDistance = currentDistance;
