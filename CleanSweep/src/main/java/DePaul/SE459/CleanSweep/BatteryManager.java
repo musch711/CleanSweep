@@ -8,7 +8,7 @@ public class BatteryManager {
 	private double currentBatteryLevel;
 	private Tile homeTile;
 	private List<Tile> shortestPath;
-	//private double shortestPathWeight;
+	private double shortestPathWeight;
 		
 	public BatteryManager(Tile homeTile) {
 		this.homeTile = homeTile;
@@ -36,7 +36,9 @@ public class BatteryManager {
 		
 		ShortestPath getPath = new ShortestPath(currentTile, homeTile, allVisitedTiles);
 		setShortestPath(getPath.getShortestPath());
-		costToHome = getPath.getWeightOfShortestPath();
+		setShortestPathWeight(getPath.getWeightOfShortestPath());
+		costToHome = getShortestPathWeight();
+		
 		//System.out.println("Weight of Shortest Path: "+costToHome);
 
 		// if cost to return to charging station is greater than the current battery level
@@ -49,14 +51,6 @@ public class BatteryManager {
 		return false;
 	}
 	
-	/**
-	 * Returns the CleanSweep to the charging station based on the floor plan that has been visited during this cleaning session.
-	 * @param currentTile The Tile the Clean Sweep is currently occupying.
-	 */
-	public void returnToChargingStation(Tile currentTile)
-	{
-		// [insert logic here]
-	}
 	
 	/**
 	 * Determines weight of moving from Tile A to Tile B based on surface type of each tile.
@@ -129,12 +123,14 @@ public class BatteryManager {
 		ShortestPath getPath = new ShortestPath(src, dest, allVisitedTiles);
 		setShortestPath(getPath.getShortestPath());
 		setShortestPathWeight(getPath.getWeightOfShortestPath());
+	}
+	*/
 	public double getShortestPathWeight(){
 		return shortestPathWeight;
 	}
 	private void setShortestPathWeight(double weight){
 		shortestPathWeight = weight;
-	}*/
+	}
 
 	/*
 	 * getShortestPath: 
