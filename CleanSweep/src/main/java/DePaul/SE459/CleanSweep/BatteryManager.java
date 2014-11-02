@@ -34,6 +34,10 @@ public class BatteryManager {
 				
 		nextMoveCost = calculateWeight(currentTile, nextTile);
 		
+		ShortestPath getPathFromNext = new ShortestPath(nextTile, homeTile, allVisitedTiles);
+		double costFromNext = getPathFromNext.getWeightOfShortestPath();
+
+
 		ShortestPath getPath = new ShortestPath(currentTile, homeTile, allVisitedTiles);
 		setShortestPath(getPath.getShortestPath());
 		setShortestPathWeight(getPath.getWeightOfShortestPath());
@@ -43,12 +47,24 @@ public class BatteryManager {
 
 		// if cost to return to charging station is greater than the current battery level
 		// minus the cost of the proposed move, turn back.
-		if (costToHome > currentBatteryLevel - nextMoveCost)
+		if(50-costToHome<currentBatteryLevel|| currentBatteryLevel-costToHome<0 || (currentBatteryLevel-costToHome>0 && currentBatteryLevel-nextMoveCost-costFromNext<0))
 		{
+			/*	//FOR DEBUGGING:
+			 * System.out.println("currentBatteryLevel-costToHome: "+currentBatteryLevel+"-"+costToHome+ "="+(currentBatteryLevel-costToHome));
+				System.out.println("***\nCurrentBatteryLevel: "+currentBatteryLevel);
+				System.out.println("costFromNext: "+costFromNext);
+				System.out.println("costToHome: "+costToHome);
+				System.out.println("nextMoveCost: "+nextMoveCost);
+			*/
 			return true;
 		}
-		
-		return false;
+			//FOR DEBUGGING:
+			/*System.out.println("***\nCurrentBatteryLevel: "+currentBatteryLevel);
+			System.out.println("costFromNext: "+costFromNext);
+			System.out.println("costToHome: "+costToHome);
+			System.out.println("nextMoveCost: "+nextMoveCost);
+			 */
+			return false; 
 	}
 	
 	
