@@ -1,6 +1,5 @@
 package DePaul.SE459.CleanSweep;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -8,7 +7,8 @@ public class BatteryManager {
 	private static final int MAX_BATTERY_CAPACITY = 50;
 	private double currentBatteryLevel;
 	private Tile homeTile;
-
+	private List<Tile> shortestPath;
+	//private double shortestPathWeight;
 		
 	public BatteryManager(Tile homeTile) {
 		this.homeTile = homeTile;
@@ -21,18 +21,24 @@ public class BatteryManager {
 	 * @param nextTile The Tile the CleanSweep is attempting to occupy.
 	 * @return True if the CleanSweep should return to the charging station to recharge, false if it is okay to traverse to the next Tile.
 	 */
-	public boolean needToRecharge(Tile currentTile, Tile nextTile) {
+	public boolean needToRecharge(Tile currentTile, Tile nextTile, List<Tile> allVisitedTiles) {
 		double costToHome = 0;
 		double nextMoveCost = 0;
 		
-		// TODO: find the least expensive distance to charging station from nextTile
+		// Find the least expensive distance to charging station from nextTile
 		// we may need to add some kind of "visited" property to the Tile class that the movement team would set
 		// when the tile is visited for the first time, since we don't want to include unvisited tiles in the
 		// calculations here since we are not supposed to be discovering the floor plan at this point.
 		// [insert complex logic here]
+		
 				
 		nextMoveCost = calculateWeight(currentTile, nextTile);
 		
+		ShortestPath getPath = new ShortestPath(currentTile, homeTile, allVisitedTiles);
+		setShortestPath(getPath.getShortestPath());
+		costToHome = getPath.getWeightOfShortestPath();
+		//System.out.println("Weight of Shortest Path: "+costToHome);
+
 		// if cost to return to charging station is greater than the current battery level
 		// minus the cost of the proposed move, turn back.
 		if (costToHome > currentBatteryLevel - nextMoveCost)
@@ -118,6 +124,17 @@ public class BatteryManager {
 		this.currentBatteryLevel = MAX_BATTERY_CAPACITY;
 	}
 
+	/*
+	private void setShortestPathAndWeight(Tile src, Tile dest, List<Tile> allVisitedTiles){
+		ShortestPath getPath = new ShortestPath(src, dest, allVisitedTiles);
+		setShortestPath(getPath.getShortestPath());
+		setShortestPathWeight(getPath.getWeightOfShortestPath());
+	public double getShortestPathWeight(){
+		return shortestPathWeight;
+	}
+	private void setShortestPathWeight(double weight){
+		shortestPathWeight = weight;
+	}*/
 
 	/*
 	 * getShortestPath: 
@@ -126,9 +143,11 @@ public class BatteryManager {
 	 * @param Tile source, Tile destination, list of all visited Tiles
 	 * @return list of tiles in the shortest path in sequence of source-->destination
 	 */
-	public List<Tile> getShortestPath(Tile src, Tile dest, List<Tile> allVisitedTiles){
-		ShortestPath getPath = new ShortestPath(src, dest, allVisitedTiles);
-		ArrayList<Tile> shortestPath = (ArrayList<Tile>) getPath.getShortestPath();
-		return shortestPath;
+	public List<Tile> getShortestPath(){
+		return shortestPath;	
 	}
+	private void setShortestPath(List<Tile> path){
+		shortestPath = path;
+	}
+
 }
