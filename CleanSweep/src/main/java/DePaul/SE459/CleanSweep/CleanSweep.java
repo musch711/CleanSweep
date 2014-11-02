@@ -32,7 +32,10 @@ public class CleanSweep {
 	 */
     public void cleanFloor()
     {
+    	/*
+    	// DEBUGGING
     	System.out.println("STARTING WITH HOME TILE");
+    	*/
     	
     	//add current tile to visited list
     	visitedTiles.add(currentTile);
@@ -146,9 +149,12 @@ public class CleanSweep {
             }
             */
             
+    		/*
+    		// DEBUGGING
+    		System.out.println("Now adding new tiles to internalMap");
+    		*/
     		
     		// Add current and surrounding tiles to internal map, if not in map
-            System.out.println("Now adding new tiles to internalMap");
     		internalMap = addTilesToInternalMap(internalMap);
     		
     		/*
@@ -173,10 +179,11 @@ public class CleanSweep {
     		currentTile.setDirtAmount(0);	
     	}
     	
+    	/*
     	// DEBUGGING
     	System.out.println("------------------ The size of visitedTiles is " + visitedTiles.size() + "-----------------");
     	System.out.println("------------------ The size of internalMap is " + internalMap.size() + "-----------------");
-    	
+    	*/
     	
     	// TODO: ONCE IT'S DONE CLEANING, THE CLEAN SWEEP SHOULD RETURN TO THE CHARINGING STATION
     }
@@ -447,6 +454,7 @@ public class CleanSweep {
 				
 				System.out.println("Clean Floor is starting: .......");
 				cs.cleanFloor();
+				System.out.println("CleanFloor is done!");
 			}
 		} catch (Exception e) {
 			System.err.println("Exception in main: " + e.getMessage());
