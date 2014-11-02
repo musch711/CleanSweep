@@ -185,7 +185,7 @@ public class CleanSweep {
     	System.out.println("------------------ The size of internalMap is " + internalMap.size() + "-----------------");
     	*/
     	
-    	// TODO: ONCE IT'S DONE CLEANING, THE CLEAN SWEEP SHOULD RETURN TO THE CHARINGING STATION
+    	// TODO: ONCE IT'S DONE CLEANING, THE CLEAN SWEEP SHOULD RETURN TO THE CHARINGING STATION & RECHARGE
     }
 
     /**
