@@ -159,7 +159,7 @@ public class ShortestPath {
 		//add them both to pq
 		this.source.setDistanceFromSource(0);
 		pq.add(this.source);
-		if(!this.destination.sameAs(this.destination))pq.add(this.destination);
+		if(!this.destination.sameAs(this.source))pq.add(this.destination);
 
 		for(int i = 0; i<visitedTiles.size(); i++){
 			//if the tile is not the source or destination, then create a vertex
