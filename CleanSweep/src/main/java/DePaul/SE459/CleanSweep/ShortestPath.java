@@ -12,13 +12,13 @@ import java.util.PriorityQueue;
  * Charge between 2 tiles = the weight = the edges
  */
 public class ShortestPath {
-	List<Vertex> allVertices;
-	List<Edge> allEdges;
-	List<Vertex> shortestPath;
-	Vertex source;
-	Vertex destination;
-	PriorityQueue<Vertex> pq;
-	double weightOfShortestPath;
+	private List<Vertex> allVertices;
+	private List<Edge> allEdges;
+	private Vertex source;
+	private Vertex destination;
+	private PriorityQueue<Vertex> pq;
+	private double weightOfShortestPath;
+	private List<Tile> shortestPath;
 
 	/*
 	 * ShortestPath constructor
@@ -26,10 +26,9 @@ public class ShortestPath {
 	 */
 	public ShortestPath(Tile source, Tile destination, List<Tile> visitedTiles){
 		pq = new PriorityQueue<Vertex>();
-
+		shortestPath = new ArrayList<Tile>();
 		allVertices = new ArrayList<Vertex>();
 		allEdges = new ArrayList<Edge>();
-		shortestPath = new ArrayList<Vertex>();
 		this.source = new Vertex(source);
 		this.destination = new Vertex(destination);
 
@@ -41,14 +40,14 @@ public class ShortestPath {
 		setAllEdges(allVertices);
 
 		weightOfShortestPath = Double.POSITIVE_INFINITY;
+		
+		setShortestPath();
 	}
+	private void setShortestPath(){
+		List<Vertex> shortestVertexPath = new ArrayList<Vertex>();
 
-	/*
-	 * getShortestPath()
-	 * @return List - Arraylist of vertices - in sequence starting from source at index 0
-	 */
-	public List<Tile> getShortestPath(){
 		List<Vertex> pathTemp = new ArrayList<Vertex>();
+
 		//do all of this while the heap is not empty OR until the pathTemp list doesn't contain the destination vertex
 		while(!pq.isEmpty() && !pathTemp.contains(destination)){
 			if(pq.peek() != null){
@@ -80,22 +79,32 @@ public class ShortestPath {
 		double totalWeight = pathTemp.get(size-1).getDistanceFromSource();
 		setWeightOfShortestPath(totalWeight);
 
-
 		Vertex v;
 		v = pathTemp.get(pathTemp.size()-1);
-		shortestPath.add(v);
-		while(v!=pathTemp.get(0)){
-			v = v.getParent();
-			shortestPath.add(v);
+		shortestVertexPath.add(v);
+		
+		if(pathTemp.size()>1){
+
+			while(v!=pathTemp.get(0)){
+				v = v.getParent();
+				shortestVertexPath.add(v);
+			}
 		}
-		Collections.reverse(shortestPath); //reverse it so that it's in order from source to destination
+		Collections.reverse(shortestVertexPath); //reverse it so that it's in order from source to destination
 		
 		//change it to return TILES and not Vertices
 		List<Tile> shortestPathInTiles = new ArrayList<Tile>();
-		for(int i = 0; i<shortestPath.size(); i++){
-			shortestPathInTiles.add(shortestPath.get(i).getTile());
+		for(int i = 0; i<shortestVertexPath.size(); i++){
+			shortestPathInTiles.add(shortestVertexPath.get(i).getTile());
 		}
-		return shortestPathInTiles;
+		this.shortestPath = shortestPathInTiles;
+	}
+	/*
+	 * getShortestPath()
+	 * @return List - Arraylist of vertices - in sequence starting from source at index 0
+	 */	
+	public List<Tile> getShortestPath(){
+		return shortestPath;
 	}
 	/*
 	 * For testing purposes - prints the shortest path to the console
@@ -144,13 +153,13 @@ public class ShortestPath {
 		return allVertices;
 	}
 
-	public void setAllVertices(Tile source, Tile destination, List<Tile> visitedTiles){
+	private void setAllVertices(Tile source, Tile destination, List<Tile> visitedTiles){
 		//set the source vertex's distanceToSource to 0 (because it's the source)
 		//keep destination vertex distanceToSource to POSITIVE_INFINITY
 		//add them both to pq
 		this.source.setDistanceFromSource(0);
 		pq.add(this.source);
-		pq.add(this.destination);
+		if(!this.destination.sameAs(this.destination))pq.add(this.destination);
 
 		for(int i = 0; i<visitedTiles.size(); i++){
 			//if the tile is not the source or destination, then create a vertex
@@ -173,7 +182,7 @@ public class ShortestPath {
 		}
 	}
 
-	public void setAllEdges(List<Vertex> allVertices){
+	private void setAllEdges(List<Vertex> allVertices){
 		for(int i = 0; i < allVertices.size(); i++){
 			//go down the array and look for each vertex's neighbor
 			Vertex current = allVertices.get(i);
