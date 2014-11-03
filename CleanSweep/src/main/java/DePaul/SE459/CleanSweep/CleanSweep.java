@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Iterator;
-import java.util.Set;
 
 public class CleanSweep {
 	private Tile homeTile;
@@ -30,7 +29,7 @@ public class CleanSweep {
 	/**
 	 * Cleans the floor
 	 */
-    public void cleanFloor()
+    public Map<Integer,Tile> cleanFloor()
     {
     	/*
     	// DEBUGGING
@@ -57,6 +56,8 @@ public class CleanSweep {
     	internalMap = new HashMap<Integer,Tile>();
     	internalMap = addTilesToInternalMap(internalMap);
     	
+        //First tile was not being cleaned.  This is a temp fix. -Steven
+        currentTile.setDirtAmount(0);
     	/*
     	// DEBUGGING
     	Integer count = internalMap.size();
@@ -176,7 +177,10 @@ public class CleanSweep {
             
     		
     		// Clean the tile (set dirt to 0)
-    		currentTile.setDirtAmount(0);	
+                while(currentTile.getDirtAmount()>0)
+                {
+                    currentTile.setDirtAmount(0);
+                }
     	}
     	
     	/*
@@ -186,6 +190,7 @@ public class CleanSweep {
     	*/
     	
     	// TODO: ONCE IT'S DONE CLEANING, THE CLEAN SWEEP SHOULD RETURN TO THE CHARINGING STATION & RECHARGE
+        return internalMap;
     }
 
     /**
@@ -425,40 +430,4 @@ public class CleanSweep {
 
         return nextTile;
     }
-        
-        
-    //For testing of the move method
-    public static void main(String args[]) {
-		String filePath;
-		if (args.length == 0) {
-			filePath = "floorplans//samplehome0.xml";
-		} else {
-			filePath = args[0];
-		}
-
-		try {
-			FloorPlan floorPlan = FloorPlanUtility.loadFloorPlan(filePath);
-
-			Tile homeTile = null;
-			for (int i = 0; i < floorPlan.numberOfFloors(); i++) {
-				Tile home = floorPlan.getFloor(i).getHomeTile();
-				if (home != null) {
-					homeTile = home;
-				}
-			}
-
-			if (homeTile != null) {
-				CleanSweep cs = new CleanSweep(homeTile);
-				//System.out.println("CleanSweep is starting...");
-				//cs.move(floorPlan.getFloor(0).getTile(5, 0)); 
-				
-				System.out.println("Clean Floor is starting: .......");
-				cs.cleanFloor();
-				System.out.println("CleanFloor is done!");
-			}
-		} catch (Exception e) {
-			System.err.println("Exception in main: " + e.getMessage());
-			e.printStackTrace();
-		}
-	}
 }

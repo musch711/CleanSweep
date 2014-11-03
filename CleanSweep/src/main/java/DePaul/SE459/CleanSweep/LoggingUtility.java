@@ -56,6 +56,19 @@ public final class LoggingUtility {
             LoggingUtility.logMovement(t);
         }
     }
+    
+    public static void logInternalMap(Map<Integer,Tile> m)
+    {
+        StringBuilder sb = new StringBuilder();
+        Iterator<Map.Entry<Integer, Tile>> it = m.entrySet().iterator();
+        while (it.hasNext())
+        {
+            Tile t = it.next().getValue();
+            sb.append("Tile: x=").append(t.getX()).append(" y=").append(t.getY());
+            sb.append(" ss=").append(t.getSurfaceType()).append(" ds=").append(t.getDirtAmount()).append("\n");
+        }
+        writeToFile("afterCleaning.txt", sb.toString());
+    }
         
     public static void logDiscoveredFloorPlan(FloorPlan fp)
     {
