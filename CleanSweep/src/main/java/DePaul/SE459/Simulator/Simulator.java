@@ -11,7 +11,7 @@ public class Simulator {
 	public static void main(String args[]) {
 		String filePath;
 		if (args.length == 0) {
-			filePath = "floorplans//samplehome1.xml";
+			filePath = "floorplans//samplehome0.xml";
 		} else {
 			filePath = args[0];
 		}
