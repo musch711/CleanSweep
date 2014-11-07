@@ -11,7 +11,7 @@ public class Simulator {
 	public static void main(String args[]) {
 		String filePath;
 		if (args.length == 0) {
-			filePath = "floorplans//samplehome0.xml";
+			filePath = "floorplans//samplehome1.xml";
 		} else {
 			filePath = args[0];
 		}
@@ -29,9 +29,14 @@ public class Simulator {
 
 			if (homeTile != null) {
 				CleanSweep cs = new CleanSweep(homeTile);
-				System.out.println("CleanSweep is starting...");
+				
+				LoggingUtility.logStart();
+				
 				Map<Integer,Tile> m = cs.cleanFloor();
-                                LoggingUtility.logInternalMap(m);
+                
+				LoggingUtility.logInternalMap(m);
+                
+				LoggingUtility.logFinish();
 			}
 		} catch (Exception e) {
 			System.err.println("Exception in main: " + e.getMessage());

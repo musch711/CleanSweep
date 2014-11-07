@@ -79,7 +79,7 @@ public class CleanSweep {
         */
     	
         //while unvisitedTiles is not empty
-    	while(!unvisitedTiles.isEmpty())
+    	while(!unvisitedTiles.isEmpty()) // TODO this may loop forever if some unvisited tiles are inaccessible
     	{
     		/*
     		// FOR DEBUGGING WHILE LOOP
@@ -190,6 +190,7 @@ public class CleanSweep {
     	*/
     	
     	// TODO: ONCE IT'S DONE CLEANING, THE CLEAN SWEEP SHOULD RETURN TO THE CHARINGING STATION & RECHARGE
+    	
         return internalMap;
     }
 
@@ -302,12 +303,43 @@ public class CleanSweep {
                     next = getNextTile(destination, availableTiles);
                 }
             }
+            
+            List<Tile> visited = new ArrayList<Tile>();
+            visited.addAll(visitedTiles);
+            visited.addAll(tilesTraversed);
+            if (battery.needToRecharge(currentTile, next, visited) && !currentTile.isChargingStation())
+            {
+		        LoggingUtility.logReturn();
+		        List<Tile> shortestPath = battery.getShortestPath();
+		        
+		        for(int i = 1; i < shortestPath.size(); i++)
+		        {
+		        	if (shortestPath.get(i) != null)
+		        	{
+		        		prev = currentTile;
+		        		currentTile = shortestPath.get(i);
+		        		battery.decrementBatteryLevel(currentTile, prev);
+		        		LoggingUtility.logMovement(currentTile);
+		        	}
+		        	
+		        	if (currentTile.isChargingStation())
+		        	{
+		        		battery.chargeBattery();
+		        		LoggingUtility.logRecharge();
+		        		destination = currentTile;
+		        		break;
+		        	}
+		        }
+            }
+            else
+            {
             tilesTraversed.add(next);
             //unvisitedTiles.remove(next);                                         // NOT SURE IF THIS SHOULD BE HERE  ... Think it's best placed in cleanFloor()  
             prev = currentTile;
             battery.decrementBatteryLevel(currentTile, next);                    
             currentTile = next;
-            LoggingUtility.logMovement(next);                                    
+            LoggingUtility.logMovement(next);
+            }                                  
         }
         return tilesTraversed;
     }

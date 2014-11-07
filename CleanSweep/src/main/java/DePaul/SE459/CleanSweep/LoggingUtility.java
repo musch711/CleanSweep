@@ -19,7 +19,7 @@ public final class LoggingUtility {
 	 */
 	public static void LogCleaning(int x, int y) {
 		String msg = " Cleaned tile at: (" + x + ", " + y + ")";
-		writeToFile("cleaning.txt", msg);
+		writeToFile("movement.txt", msg);
 	}
 
 	/**
@@ -48,7 +48,27 @@ public final class LoggingUtility {
 		String msg = "Current location at tile: (" + t.getX() + ", " + t.getY()+ ")";
 		writeToFile("movement.txt", msg);
 	}
-        
+	
+	public static void logStart() {
+		String msg = "CleanSweep has started...";
+		writeToFile("movement.txt", msg);
+	}
+	
+	public static void logFinish() {
+		String msg = "CleanSweep has finished.";
+		writeToFile("movement.txt", msg);
+	}
+      
+	public static void logRecharge() {
+		String msg = "CleanSweep has finished recharging.";
+		writeToFile("movement.txt", msg);
+	}
+	
+	public static void logReturn() {
+		String msg = "CleanSweep is returning to charging station.";
+		writeToFile("movement.txt", msg);
+	}
+	
     public static void logPath(List<Tile> path)
     {
         for (Tile t: path)
@@ -111,7 +131,7 @@ public final class LoggingUtility {
 			fw = new FileWriter(outputFile.getPath(), true);
 			bw = new BufferedWriter(fw);
 
-			//System.out.println(msg);                                          // COMMENTED OUT TO MAKE DEBUGGING EASIER ... NEED TO UNCOMMENT WHEN DONE DEBUGGING
+			System.out.println(msg);                                          // COMMENTED OUT TO MAKE DEBUGGING EASIER ... NEED TO UNCOMMENT WHEN DONE DEBUGGING
 			bw.write(msg);
 			bw.write(System.getProperty("line.separator"));
 		} catch (IOException e) {
