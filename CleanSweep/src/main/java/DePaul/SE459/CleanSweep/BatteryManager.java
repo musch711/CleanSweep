@@ -1,9 +1,11 @@
 package DePaul.SE459.CleanSweep;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class BatteryManager {
-	private static final int MAX_BATTERY_CAPACITY = 100;
+	private static final int MAX_BATTERY_CAPACITY = 50;
 	private double currentBatteryLevel;
 	private Tile homeTile;
 	private List<Tile> shortestPath;
@@ -145,4 +147,14 @@ public class BatteryManager {
 		shortestPath = path;
 	}
 
+        public boolean canReachTile(Tile destinationTile, Tile homeTile, Map<Integer,Tile> internalMap)
+        {
+            List<Tile> internalList = new ArrayList<Tile>(internalMap.values());
+            ShortestPath path = new ShortestPath(destinationTile, homeTile, internalList);
+            //Multiply by two to account for there and back
+
+            double pathWeight = path.getWeightOfShortestPath() * 2;
+            System.out.println("Path Weight: " + pathWeight);
+            return pathWeight <= MAX_BATTERY_CAPACITY;
+        }
 }
