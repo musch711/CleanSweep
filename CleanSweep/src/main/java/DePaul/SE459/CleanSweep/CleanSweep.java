@@ -89,7 +89,10 @@ public class CleanSweep {
     		
     		// Determine closest tile from unvisitedTile list
     		Tile nextTile = getNextTile(unvisitedTiles);
-    		
+    		//if shortest path from charging station to nextTile * 2 > 50
+                //remove that tile from unvisitedTile and log message indicating that
+                //tile won't be cleaned - Steven 11/7
+                
     		/*
     		// DEBUGGIN FOR 59ST TIME IN LOOP
     		if(counting == 59)
@@ -174,7 +177,6 @@ public class CleanSweep {
                System.out.println(me.getKey() + ": (" + ((Tile) me.getValue()).getX() + ", " + ((Tile) me.getValue()).getY() + ")"); 
             }
             */
-            
     		
     		// Clean the tile (set dirt to 0)
                 while(currentTile.getDirtAmount()>0)
@@ -188,7 +190,6 @@ public class CleanSweep {
     	System.out.println("------------------ The size of visitedTiles is " + visitedTiles.size() + "-----------------");
     	System.out.println("------------------ The size of internalMap is " + internalMap.size() + "-----------------");
     	*/
-    	
     	// TODO: ONCE IT'S DONE CLEANING, THE CLEAN SWEEP SHOULD RETURN TO THE CHARINGING STATION & RECHARGE
     	
         return internalMap;
