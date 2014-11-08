@@ -5,6 +5,29 @@
 	<groupId>DePaul.SE459</groupId>
 	<artifactId>CleanSweep</artifactId>
 	<version>1</version>
+        <packaging>jar</packaging>
+
+<!-- to add to build for demo START:-->
+    <build>
+      <plugins>
+        <plugin>
+          <!-- Build an executable JAR -->
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>2.4</version>
+          <configuration>
+            <archive>
+              <manifest>
+                <mainClass>DePaul.SE459.Simulator.Simulator</mainClass>
+              </manifest>
+            </archive>
+          </configuration>
+        </plugin>
+      </plugins>
+    </build>
+
+    <!-- :END for demo-->
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
