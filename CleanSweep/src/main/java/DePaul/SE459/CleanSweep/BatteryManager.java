@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 public class BatteryManager {
-	private static final int MAX_BATTERY_CAPACITY = 50;
+	private static final int MAX_BATTERY_CAPACITY = 50; 
 	private double currentBatteryLevel;
 	private Tile homeTile;
 	private List<Tile> shortestPath;

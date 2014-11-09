@@ -179,10 +179,10 @@ public class CleanSweep {
             */
     		
     		// Clean the tile (set dirt to 0)
-                while(currentTile.getDirtAmount()>0)
-                {
-                    currentTile.setDirtAmount(0);
-                }
+            while(currentTile.getDirtAmount()>0)
+            {
+                currentTile.setDirtAmount(0);
+            }
     	}
     	
     	/*
@@ -190,7 +190,22 @@ public class CleanSweep {
     	System.out.println("------------------ The size of visitedTiles is " + visitedTiles.size() + "-----------------");
     	System.out.println("------------------ The size of internalMap is " + internalMap.size() + "-----------------");
     	*/
-    	// TODO: ONCE IT'S DONE CLEANING, THE CLEAN SWEEP SHOULD RETURN TO THE CHARINGING STATION & RECHARGE
+    	
+    	// Now that's it done cleaning, return to the charging station
+    	LoggingUtility.logReturn();
+    	ShortestPath sPath = new ShortestPath(currentTile, homeTile, visitedTiles);
+    	List<Tile> sPathList = sPath.getShortestPath();
+    	Iterator<Tile> itr = sPathList.iterator();
+        while(itr.hasNext()) 
+        {
+        	Tile element = itr.next();
+        	move(element);
+        }
+    	
+        // Once at the charging station re-charge.
+    	battery.chargeBattery();
+		LoggingUtility.logRecharge();
+    	
     	
         return internalMap;
     }
