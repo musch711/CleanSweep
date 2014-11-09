@@ -40,7 +40,7 @@ public class ShortestPath {
 		setAllEdges(allVertices);
 
 		weightOfShortestPath = Double.POSITIVE_INFINITY;
-		
+
 		setShortestPath();
 	}
 	private void setShortestPath(){
@@ -82,7 +82,7 @@ public class ShortestPath {
 		Vertex v;
 		v = pathTemp.get(pathTemp.size()-1);
 		shortestVertexPath.add(v);
-		
+
 		if(pathTemp.size()>1){
 
 			while(v!=pathTemp.get(0)){
@@ -91,7 +91,7 @@ public class ShortestPath {
 			}
 		}
 		Collections.reverse(shortestVertexPath); //reverse it so that it's in order from source to destination
-		
+
 		//change it to return TILES and not Vertices
 		List<Tile> shortestPathInTiles = new ArrayList<Tile>();
 		for(int i = 0; i<shortestVertexPath.size(); i++){
@@ -194,50 +194,65 @@ public class ShortestPath {
 				Vertex following = allVertices.get(j);
 				if(currentX == following.getTile().getX()){
 					if((currentY-1)==following.getTile().getY()){
-						//it's the lower neighbor
-						//set it as a neighbor at index=1 for current
-						current.setNeighbor(1, following);
-						//set current as a neighbor of following at index=0
-						following.setNeighbor(0, current);
+						//add it as a neighbor and edge ONLY if path = 1 for the lower path
+						if(current.getTile().getLowerPath()==1){
+							//it's the lower neighbor
+							//set it as a neighbor at index=1 for current
+							current.setNeighbor(1, following);
+							//set current as a neighbor of following at index=0
+							following.setNeighbor(0, current);
 
-						//create an edge between them and add to the allEdges arraylist
-						Edge newEdge = new Edge(current, following);
-						allEdges.add(newEdge);
+							//create an edge between them and add to the allEdges arraylist
+							Edge newEdge = new Edge(current, following);
+							allEdges.add(newEdge);
+						}
 					}
 					if((currentY+1) == following.getTile().getY()){
-						//it's the upper neighbor
-						//set it as a neighbor at index=0 for current
-						current.setNeighbor(0, following);
-						//set current as a neighbor of following at index=1
-						following.setNeighbor(1, current);
+						//add it as a neighbor and edge ONLY if path = 1 for the upper path
+						if(current.getTile().getUpperPath()==1){
 
-						//create an edge between them and add to the allEdges arraylist
-						Edge newEdge = new Edge(current, following);
-						allEdges.add(newEdge);
+							//it's the upper neighbor
+							//set it as a neighbor at index=0 for current
+							current.setNeighbor(0, following);
+							//set current as a neighbor of following at index=1
+							following.setNeighbor(1, current);
+
+							//create an edge between them and add to the allEdges arraylist
+							Edge newEdge = new Edge(current, following);
+							allEdges.add(newEdge);
+						}
 					}
 				}
 				if(currentY == following.getTile().getY()){
 					if((currentX-1) == following.getTile().getX()){
-						//it's the left neighbor
-						//set it as a neighbor at index=2 for current
-						current.setNeighbor(2, following);
-						//set current as a neighbor of following at index=3
-						following.setNeighbor(3, current);
+						//add it as a neighbor and edge ONLY if path = 1 for the left path
+						if(current.getTile().getLeftPath()==1){
 
-						//create an edge between them and add to the allEdges arraylist
-						Edge newEdge = new Edge(current, following);
-						allEdges.add(newEdge);
+							//it's the left neighbor
+							//set it as a neighbor at index=2 for current
+							current.setNeighbor(2, following);
+							//set current as a neighbor of following at index=3
+							following.setNeighbor(3, current);
+
+							//create an edge between them and add to the allEdges arraylist
+							Edge newEdge = new Edge(current, following);
+							allEdges.add(newEdge);
+						}
 					}
 					if((currentX+1) == following.getTile().getX()){
-						//it's the right neighbor
-						//set it as a neighbor at index=3 for current
-						current.setNeighbor(3, following);
-						//set current as a neighbor of following at index=2
-						following.setNeighbor(2, current);
+						//add it as a neighbor and edge ONLY if path = 1 for the right path
+						if(current.getTile().getRightPath()==1){
 
-						//create an edge between them and add to the allEdges arraylist
-						Edge newEdge = new Edge(current, following);
-						allEdges.add(newEdge);
+							//it's the right neighbor
+							//set it as a neighbor at index=3 for current
+							current.setNeighbor(3, following);
+							//set current as a neighbor of following at index=2
+							following.setNeighbor(2, current);
+
+							//create an edge between them and add to the allEdges arraylist
+							Edge newEdge = new Edge(current, following);
+							allEdges.add(newEdge);
+						}
 					}
 				}
 			}
