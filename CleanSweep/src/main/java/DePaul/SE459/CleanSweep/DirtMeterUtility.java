@@ -4,12 +4,12 @@ public class DirtMeterUtility {
 	private static final int MAX_DIRT_CAPACITY = 50;
 	private boolean emptyMeLight;
 	private int currentDirtCapacity;
-	
+
 	public DirtMeterUtility(){
 		emptyDirtBag();
 		setEmptyMeLight(false);
 	}
-	
+
 	/*
 	 * emptyDirtBag() - empties the dirt bag
 	 * -resets currentDirtCapacity to zero
@@ -33,8 +33,10 @@ public class DirtMeterUtility {
 	 * -after cleaning 1 unit of dirt, if dirt=50 units, turn light on
 	 */
 	public void cleanOneDirtUnitFromTile(Tile tileToClean){
-		incrementCurrentDirtCapacity();
-		decrementDirtOnTile(tileToClean);
+		if(tileToClean.getDirtAmount()>0){
+			incrementCurrentDirtCapacity();
+			decrementDirtOnTile(tileToClean);
+		}
 		if(getCurrentDirtCapacity()>=MAX_DIRT_CAPACITY){
 			setEmptyMeLight(true);
 		}
@@ -44,7 +46,7 @@ public class DirtMeterUtility {
 	 * getDirtCapacity():
 	 * get current dirt amount
 	 */
-	private int getCurrentDirtCapacity(){
+	public int getCurrentDirtCapacity(){
 		return currentDirtCapacity;
 	}
 	/*
@@ -73,5 +75,5 @@ public class DirtMeterUtility {
 		}
 		tileToClean.setDirtAmount(dirtOnTile);
 	}
-	
+
 }
