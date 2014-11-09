@@ -112,8 +112,10 @@ public class CleanSweep {
                 List<Tile> traversed;
                 if (battery.needToRecharge(currentTile, nextTile, new ArrayList<>(internalMap.values())) && !currentTile.isChargingStation())
                 {
+                    LoggingUtility.logDiscoveredCell("Going home to get more juice!!!");
                     traversed = move(homeTile);
-                    LoggingUtility.logDiscoveredCell("Back to charging station");
+                    battery.chargeBattery();
+                    LoggingUtility.logRecharge();
                     List<Tile> backToCurrent = move(nextTile);
                     traversed.addAll(backToCurrent);
                 }
