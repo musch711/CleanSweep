@@ -27,7 +27,7 @@ public final class LoggingUtility {
 	 * @param cell A string representing the information of the Tile (ie. <cell x = 0, y = 0, ss = 2, ps = 1212, ds = 1, cs = 1 />)
 	 */
 	public static void logDiscoveredCell(String cell) {
-		writeToFile("logDiscoveredCell.txt", cell);
+		writeToFile("movement.txt", cell);
 	}
 
 		/**
@@ -47,6 +47,11 @@ public final class LoggingUtility {
 	public static void logMovement(Tile t){
 		String msg = "Current location at tile: (" + t.getX() + ", " + t.getY()+ ")";
 		writeToFile("movement.txt", msg);
+	}
+        
+        public static void logPath(Tile t){
+            String msg = "Shortest Path: (" + t.getX() + ", " + t.getY()+ ")";
+            writeToFile("movement.txt", msg);
 	}
 	
 	public static void logStart() {

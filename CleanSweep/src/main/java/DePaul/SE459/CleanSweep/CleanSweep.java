@@ -109,7 +109,19 @@ public class CleanSweep {
     		*/
     		
     		// Move to closest tile from unvisitedTile list
-    		move(nextTile);
+                List<Tile> traversed;
+                if (battery.needToRecharge(currentTile, nextTile, new ArrayList<>(internalMap.values())) && !currentTile.isChargingStation())
+                {
+                    traversed = move(homeTile);
+                    LoggingUtility.logDiscoveredCell("Back to charging station");
+                    List<Tile> backToCurrent = move(nextTile);
+                    traversed.addAll(backToCurrent);
+                }
+                else
+                {
+                    traversed = move(nextTile);
+                }
+                       
     		
     		/*
     		// DEBUGGIN FOR 51ST TIME IN LOOP
@@ -120,7 +132,8 @@ public class CleanSweep {
     		*/
     		
     		// Add new currentTile to visitedTiles list
-    		visitedTiles.add(currentTile);
+    		//visitedTiles.add(currentTile);
+                visitedTiles.addAll(traversed);
     		
     		/*
     		// DEBUGGING
@@ -301,6 +314,7 @@ public class CleanSweep {
         
         while(!currentTile.sameTile(destination))
         {
+            /*
             availableTiles = getAvailableMoves(currentTile);
 
             //Ignore prior tiles at first
@@ -319,7 +333,11 @@ public class CleanSweep {
                     next = getNextTile(destination, availableTiles);
                 }
             }
+            */
+            ShortestPath path = new ShortestPath(currentTile, destination, new ArrayList<>(internalMap.values()));
+            next = path.getShortestPath().get(1);
             
+            /*
             List<Tile> visited = new ArrayList<Tile>();
             visited.addAll(visitedTiles);
             visited.addAll(tilesTraversed);
@@ -347,15 +365,16 @@ public class CleanSweep {
 		        	}
 		        }
             }
-            else
-            {
+            */
+            //else
+            //{
             tilesTraversed.add(next);
             //unvisitedTiles.remove(next);                                         // NOT SURE IF THIS SHOULD BE HERE  ... Think it's best placed in cleanFloor()  
             prev = currentTile;
             battery.decrementBatteryLevel(currentTile, next);                    
             currentTile = next;
             LoggingUtility.logMovement(next);
-            }                                  
+            //}                                  
         }
         return tilesTraversed;
     }
