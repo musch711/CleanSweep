@@ -206,15 +206,7 @@ public class CleanSweep {
     	
     	// Now that's it done cleaning, return to the charging station
     	LoggingUtility.logReturn();
-    	ShortestPath sPath = new ShortestPath(currentTile, homeTile, visitedTiles);
-    	List<Tile> sPathList = sPath.getShortestPath();
-    	Iterator<Tile> itr = sPathList.iterator();
-        while(itr.hasNext()) 
-        {
-        	Tile element = itr.next();
-        	move(element);
-        }
-    	
+    	move(homeTile);
         // Once at the charging station re-charge.
     	battery.chargeBattery();
 		LoggingUtility.logRecharge();
