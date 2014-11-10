@@ -1,10 +1,5 @@
 package Test.Path;
 
-import DePaul.SE459.CleanSweep.Tile;
-import DePaul.SE459.CleanSweep.Floor;
-import DePaul.SE459.CleanSweep.FloorPlan;
-import DePaul.SE459.CleanSweep.Floor;
-import DePaul.SE459.CleanSweep.LoggingUtility;
 
 import java.io.File;
 
@@ -13,6 +8,11 @@ import junit.framework.TestCase;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+
+import DePaul.SE459.CleanSweep.Floor;
+import DePaul.SE459.CleanSweep.FloorPlan;
+import DePaul.SE459.CleanSweep.LoggingUtility;
+import DePaul.SE459.CleanSweep.Tile;
 
 /*
  * NOTE: The logging files (cleaning.txt, movement.txt, logDiscoveredCell.txt, logDiscoveredFloorPlan.txt)
@@ -29,7 +29,9 @@ public class LoggingUtilityTEST extends TestCase{
 	final File trackingDirectory = new File("tracking"); //the directory name that tracking files are stored in
 
 	public void testLogCleaning() throws IOException{
-		//write to the cleaning.txt file
+		File f = new File("tracking\\movement.txt");
+		if(f.exists()) f.delete();
+		//write to the movement.txt file
 		LoggingUtility.LogCleaning(1, 1);
 		LoggingUtility.LogCleaning(2, 2);
 		LoggingUtility.LogCleaning(3, 3);
@@ -37,9 +39,10 @@ public class LoggingUtilityTEST extends TestCase{
 		LoggingUtility.LogCleaning(5, 5);
 		LoggingUtility.LogCleaning(6, 6);
 		
-		//create a buffered reader to read from the cleaning.txt file
-		BufferedReader reader = new BufferedReader(new FileReader("tracking\\cleaning.txt"));
-
+		//create a buffered reader to read from the movement.txt file
+		BufferedReader reader = new BufferedReader(new FileReader("tracking\\movement.txt"));
+		
+		
 		String line = null;
 		line = reader.readLine();
 		assertEquals(true, line.equals(" Cleaned tile at: (1, 1)"));
@@ -70,6 +73,9 @@ public class LoggingUtilityTEST extends TestCase{
 	
 	
 	public void testLogDiscoveredCell() throws IOException{
+		File f = new File("tracking\\movement.txt");
+		if(f.exists()) f.delete();
+
 		//write to the logDiscoveredCell.txt file
 		LoggingUtility.logDiscoveredCell("<cell x = 1, y = 2, ss = 1, ps = 1121, ds = 2, cs = 1 />");
 		LoggingUtility.logDiscoveredCell("<cell x = 2, y = 3, ss = 2, ps = 1212, ds = 1, cs = 1 />");
@@ -77,7 +83,7 @@ public class LoggingUtilityTEST extends TestCase{
 		LoggingUtility.logDiscoveredCell("<cell x = 4, y = 5, ss = 1, ps = 1211, ds = 1, cs = 0 />");
 		
 		//create a buffered reader to read from the cleaning.txt file
-		BufferedReader reader = new BufferedReader(new FileReader("tracking\\logDiscoveredCell.txt"));
+		BufferedReader reader = new BufferedReader(new FileReader("tracking\\movement.txt"));
 
 		String line = null;
 		line = reader.readLine();
@@ -102,6 +108,9 @@ public class LoggingUtilityTEST extends TestCase{
 	}
 	
 	public void testLogMovement() throws IOException{
+		File f = new File("tracking\\movement.txt");
+		if(f.exists()) f.delete();
+
 		//write to the cleaning.txt file
 		LoggingUtility.logMovement(1, 1);
 		LoggingUtility.logMovement(2, 2);
@@ -134,7 +143,9 @@ public class LoggingUtilityTEST extends TestCase{
 	}
 	
 	public void testLogDiscoveredFloorPlan() throws IOException{
-		
+		File f = new File("tracking\\movement.txt");
+		if(f.exists()) f.delete();
+
 		//create tiles
 		//								  r  l  u  d
 		final Tile t1 = new Tile(1, 1, 1, 1, 1, 1, 2, 1, false);
