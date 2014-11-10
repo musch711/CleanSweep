@@ -7,9 +7,10 @@ import java.util.Map;
 import java.util.Iterator;
 
 public class CleanSweep {
-	private Tile homeTile;
+    private Tile homeTile;
     private Tile currentTile;
     private BatteryManager battery;
+    private DirtMeterUtility dirtMeter;
     //Contains information about all visited tiles as well as all adjacent tiles of tiles we have visited
     private Map<Integer, Tile> internalMap;
     //Contains list of tiles that have been visited
@@ -18,12 +19,13 @@ public class CleanSweep {
     private List<Tile> unvisitedTiles;
         
 	public CleanSweep(Tile ht) {
-		homeTile = ht;
-        currentTile = ht;
-        battery = new BatteryManager(homeTile);
-        internalMap = new HashMap<>();
-        unvisitedTiles = new ArrayList<>();
-        visitedTiles = new ArrayList<>();
+            homeTile = ht;
+            currentTile = ht;
+            battery = new BatteryManager(homeTile);
+            dirtMeter = new DirtMeterUtility();
+            internalMap = new HashMap<>();
+            unvisitedTiles = new ArrayList<>();
+            visitedTiles = new ArrayList<>();
 	}
 
 	/**
@@ -31,84 +33,24 @@ public class CleanSweep {
 	 */
     public Map<Integer,Tile> cleanFloor()
     {
-    	/*
-    	// DEBUGGING
-    	System.out.println("STARTING WITH HOME TILE");
-    	*/
-    	
     	//add current tile to visited list
     	visitedTiles.add(currentTile);
-    	
-    	/*
-    	// DEBUGGING
-		System.out.println("------------------ The size of visitedTiles is " + visitedTiles.size() + "-----------------");
-    	*/
-    	
+    		
         // Add unvisited surrounding tiles to unvisited tiles
     	surroundingTilesToUnvisted();
     	
-    	/*
-    	// DEBUGGING
-		System.out.println("------------------ The size of UnvisitedTiles is " + unvisitedTiles.size() + "-----------------");
-		*/
-        
         // Add current and surrounding tiles to internal map
     	internalMap = new HashMap<Integer,Tile>();
     	internalMap = addTilesToInternalMap(internalMap);
     	
         //First tile was not being cleaned.  This is a temp fix. -Steven
         currentTile.setDirtAmount(0);
-    	/*
-    	// DEBUGGING
-    	Integer count = internalMap.size();
-    	System.out.println("------------------ The size of the INTERNAL MAP is " + count + "-----------------");
-    	System.out.println("The contents of the INTERNAL MAP:");
-    	// Get a set of the entries
-        Set set = internalMap.entrySet();
-        // Get an iterator
-        Iterator i = set.iterator();
-        // Display elements
-        while(i.hasNext()) 
-        {
-           Map.Entry me = (Map.Entry)i.next();
-           System.out.println(me.getKey() + ": (" + ((Tile) me.getValue()).getX() + ", " + ((Tile) me.getValue()).getY() + ")"); 
-        }
-    	
-        // FOR DEBUGGIG WHILE LOOP
-        int counting = 0;
-        */
     	
         //while unvisitedTiles is not empty
     	while(!unvisitedTiles.isEmpty()) // TODO this may loop forever if some unvisited tiles are inaccessible
     	{
-    		/*
-    		// FOR DEBUGGING WHILE LOOP
-    		counting++;
-    		System.out.println("\n\n\nIn WHILE LOOP for " + counting + "th time\n\n"); 		
-    		*/
-    		
-    		// Determine closest tile from unvisitedTile list
     		Tile nextTile = getNextTile(unvisitedTiles);
-    		//if shortest path from charging station to nextTile * 2 > 50
-                //remove that tile from unvisitedTile and log message indicating that
-                //tile won't be cleaned - Steven 11/7
-                
-    		/*
-    		// DEBUGGIN FOR 59ST TIME IN LOOP
-    		if(counting == 59)
-    		{
-    			System.out.println("About to call move() with parameter tile: (" + nextTile.getX() + ", " + nextTile.getY() + ")");
-    			System.out.println("Size of visitedTiles list: " + visitedTiles.size());
-    			Iterator<Tile> itr = visitedTiles.iterator();
-                while(itr.hasNext()) 
-                {
-                	Tile element = itr.next(); 
-                	System.out.println("(" + element.getX() + ", " + element.getY() + ")");
-                }
-    		}
-    		*/
-    		
-    		// Move to closest tile from unvisitedTile list
+
                 List<Tile> traversed;
                 if (battery.needToRecharge(currentTile, nextTile, new ArrayList<>(internalMap.values())) && !currentTile.isChargingStation())
                 {
@@ -119,100 +61,43 @@ public class CleanSweep {
                     List<Tile> backToCurrent = move(nextTile);
                     traversed.addAll(backToCurrent);
                 }
-                else
+                
+                if (dirtMeter.emptyMeLightIsOn())
                 {
-                    traversed = move(nextTile);
+                    LoggingUtility.logDiscoveredCell("Going home to get bag emptied!!!");
+                    traversed = move(homeTile);
+                    dirtMeter.emptyDirtBag();
+                    LoggingUtility.logDiscoveredCell("Bag emptied!!!");
+                    List<Tile> backToCurrent = move(nextTile);
+                    traversed.addAll(backToCurrent);                    
                 }
-                       
-    		
-    		/*
-    		// DEBUGGIN FOR 51ST TIME IN LOOP
-    		if(counting == 51)
-    		{
-    			System.out.println("Just called move()");
-    		}
-    		*/
-    		
-    		// Add new currentTile to visitedTiles list
-    		//visitedTiles.add(currentTile);
-                visitedTiles.addAll(traversed);
-    		
-    		/*
-    		// DEBUGGING
-    		System.out.println("Now at tile: (" + currentTile.getX() + ", " + currentTile.getY() + ")");
-    		System.out.println("The visitedTiles list should increase and unvisitedTiles list should decrease");
-    		System.out.println("------------------ The size of visitedTiles is " + visitedTiles.size() + " -----------------");
-    		*/
-    		
-    		// Remove new currentTile from unvisitedTiles
-    		unvisitedTiles.remove(currentTile);
-    		
-    		/*
-    		// DEBUGGING
-    		System.out.println("------------------ The size of UnvisitedTiles is " + unvisitedTiles.size() + " -----------------");
-    		*/
-    		
+
+                    traversed = move(nextTile);
+                    
+                    while(currentTile.getDirtAmount()>0)
+                    {
+                        if (dirtMeter.emptyMeLightIsOn())
+                            break;
+                        dirtMeter.cleanOneDirtUnitFromTile(currentTile);
+                    }
+                    if (currentTile.getDirtAmount()<=0)
+                    {
+                        unvisitedTiles.remove(currentTile);
+                    }
+                
     		// Add unvisited surrounding tiles to unvisitedTiles list
+                visitedTiles.addAll(traversed);
     		surroundingTilesToUnvisted();
-    		
-    		/*
-    		// DEBUGGING
-    		System.out.println("Now that we're on a new tile, add surrounding tiles to unvisitedTiles list");
-    		System.out.println("------------------ The size of UnvisitedTiles is " + unvisitedTiles.size() + "-----------------");
-    		System.out.println("Current Tiles in unvisitedTiles list:");
-    		Iterator<Tile> itr = unvisitedTiles.iterator();
-            while(itr.hasNext()) 
-            {
-            	Tile element = itr.next(); 
-            	System.out.println("(" + element.getX() + ", " + element.getY() + ")");
-            }
-            */
-            
-    		/*
-    		// DEBUGGING
-    		System.out.println("Now adding new tiles to internalMap");
-    		*/
-    		
-    		// Add current and surrounding tiles to internal map, if not in map
     		internalMap = addTilesToInternalMap(internalMap);
-    		
-    		/*
-    		// DEBUGGING
-        	Integer counter = internalMap.size();
-        	System.out.println("------------------ The size of the INTERNAL MAP is " + counter + "-----------------");
-        	System.out.println("The contents of the INTERNAL MAP:");
-        	// Get a set of the entries
-            Set setTwo = internalMap.entrySet();
-            // Get an iterator
-            Iterator j = set.iterator();
-            // Display elements
-            while(j.hasNext()) 
-            {
-               Map.Entry me = (Map.Entry)j.next();
-               System.out.println(me.getKey() + ": (" + ((Tile) me.getValue()).getX() + ", " + ((Tile) me.getValue()).getY() + ")"); 
-            }
-            */
-    		
-    		// Clean the tile (set dirt to 0)
-            while(currentTile.getDirtAmount()>0)
-            {
-                currentTile.setDirtAmount(0);
-            }
     	}
     	
-    	/*
-    	// DEBUGGING
-    	System.out.println("------------------ The size of visitedTiles is " + visitedTiles.size() + "-----------------");
-    	System.out.println("------------------ The size of internalMap is " + internalMap.size() + "-----------------");
-    	*/
-    	
     	// Now that's it done cleaning, return to the charging station
+        LoggingUtility.logDiscoveredCell("Bag Capacity: " + dirtMeter.getCurrentDirtCapacity());
     	LoggingUtility.logReturn();
     	move(homeTile);
         // Once at the charging station re-charge.
     	battery.chargeBattery();
-		LoggingUtility.logRecharge();
-    	
+	LoggingUtility.logRecharge();    	
     	
         return internalMap;
     }
@@ -272,103 +157,26 @@ public class CleanSweep {
             unvisitedTiles.add(itr.next());
         }
     }
-    
+  
     /**
-	 * Checks to see if the currentTile is dirty. 
-	 * Returns true if the tile is dirty
-	 * @param tile
-	 * @return boolean
-	 */
-    private boolean isTileDirty(Tile tile)
-    {
-    	if(tile.getDirtAmount() > 0)
-    	{
-    		return true;
-    	}
-    	else 
-    	{
-    		return false;
-    	}
-    }
-    
-    
-    /**
-	 * Stupid move.  Does not utilize internalMap to determine next movement
-	 * @param destination The target destination for the CleenSweep
-	 * @return List The path the CleanSweep traversed to get to the destination
-	 */
+     * @param destination The target destination for the CleenSweep
+     * @return List The path the CleanSweep traversed to get to the destination
+     */
     private List<Tile> move(Tile destination)
     {
         List<Tile> tilesTraversed = new ArrayList<>();
         tilesTraversed.add(currentTile);
-        List<Tile> availableTiles;
-        List<Tile> availableMinusVisited;
         Tile next;
-        Tile prev = currentTile;
         
         while(!currentTile.sameTile(destination))
         {
-            /*
-            availableTiles = getAvailableMoves(currentTile);
-
-            //Ignore prior tiles at first
-            availableMinusVisited = new ArrayList<>(availableTiles);
-            availableMinusVisited.removeAll(tilesTraversed);
-            if (!availableMinusVisited.isEmpty())
-            {
-                next = getNextTile(destination, availableMinusVisited);
-            }
-            else
-            {
-                next = getNextTile(destination, availableTiles);
-                if (next.sameTile(prev))
-                {
-                    availableTiles.remove(prev);
-                    next = getNextTile(destination, availableTiles);
-                }
-            }
-            */
             ShortestPath path = new ShortestPath(currentTile, destination, new ArrayList<>(internalMap.values()));
             next = path.getShortestPath().get(1);
             
-            /*
-            List<Tile> visited = new ArrayList<Tile>();
-            visited.addAll(visitedTiles);
-            visited.addAll(tilesTraversed);
-            if (battery.needToRecharge(currentTile, next, visited) && !currentTile.isChargingStation())
-            {
-		        LoggingUtility.logReturn();
-		        List<Tile> shortestPath = battery.getShortestPath();
-		        
-		        for(int i = 1; i < shortestPath.size(); i++)
-		        {
-		        	if (shortestPath.get(i) != null)
-		        	{
-		        		prev = currentTile;
-		        		currentTile = shortestPath.get(i);
-		        		battery.decrementBatteryLevel(currentTile, prev);
-		        		LoggingUtility.logMovement(currentTile);
-		        	}
-		        	
-		        	if (currentTile.isChargingStation())
-		        	{
-		        		battery.chargeBattery();
-		        		LoggingUtility.logRecharge();
-		        		destination = currentTile;
-		        		break;
-		        	}
-		        }
-            }
-            */
-            //else
-            //{
             tilesTraversed.add(next);
-            //unvisitedTiles.remove(next);                                         // NOT SURE IF THIS SHOULD BE HERE  ... Think it's best placed in cleanFloor()  
-            prev = currentTile;
             battery.decrementBatteryLevel(currentTile, next);                    
             currentTile = next;
-            LoggingUtility.logMovement(next);
-            //}                                  
+            LoggingUtility.logMovement(next);                                  
         }
         return tilesTraversed;
     }
