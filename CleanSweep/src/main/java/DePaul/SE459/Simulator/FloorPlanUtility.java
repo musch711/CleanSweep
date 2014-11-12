@@ -1,14 +1,23 @@
-package DePaul.SE459.CleanSweep;
+package DePaul.SE459.Simulator;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.StringReader;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import DePaul.SE459.CleanSweep.Floor;
+import DePaul.SE459.CleanSweep.FloorPlan;
+import DePaul.SE459.CleanSweep.Tile;
 
 /**
  * This class contains all of the logic related to loading and dumping floor plans to and from files.
@@ -21,15 +30,14 @@ public class FloorPlanUtility {
 	 * @return The FloorPlan, complete with Floors and Tiles.
 	 * @throws Exception If there is an IO error or file does not meet predefined floor plan layout.
 	 */
-	public static FloorPlan loadFloorPlan(String filePath) throws Exception {
-		File file = new File(filePath);
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder docBuilder = dbFactory.newDocumentBuilder();
-		Document doc = docBuilder.parse(file);
+	public static FloorPlan loadFloorPlan(Document doc) throws Exception {
+		FloorPlan floorPlan = new FloorPlan();
+
+		if (doc == null) {
+			throw new Exception("FloorPlanUtility.loadFloorPlan: Document object cannot be null");
+		}
 
 		doc.getDocumentElement().normalize();
-
-		FloorPlan floorPlan = new FloorPlan();
 
 		// for each floor
 		NodeList floors = doc.getElementsByTagName("floor");
@@ -60,7 +68,7 @@ public class FloorPlanUtility {
 						int left = Integer.parseInt(paths.substring(1, 2));
 						int up = Integer.parseInt(paths.substring(2, 3));
 						int down = Integer.parseInt(paths.substring(3, 4));
-						
+
 						int dirt = Integer.parseInt(cellElements.getAttribute("ds"));
 						int charge = Integer.parseInt(cellElements.getAttribute("cs"));
 
@@ -79,5 +87,23 @@ public class FloorPlanUtility {
 		}
 
 		return floorPlan;
+	}
+
+	public static Document loadFromFile(String filePath) throws Exception {
+		File file = new File(filePath);
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder docBuilder = dbFactory.newDocumentBuilder();
+		Document doc = docBuilder.parse(file);
+
+		return doc;
+	}
+
+	public static Document loadFromString(String xml) throws Exception {
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+
+		factory.setNamespaceAware(true);
+		DocumentBuilder builder = factory.newDocumentBuilder();
+
+		return builder.parse(new ByteArrayInputStream(xml.getBytes()));
 	}
 }
