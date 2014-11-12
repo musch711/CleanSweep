@@ -21,7 +21,6 @@ public class Simulator {
 		try {
 			Document doc = FloorPlanUtility.loadFromFile(filePath);
 			FloorPlan floorPlan = FloorPlanUtility.loadFloorPlan(doc);
-
 			Tile homeTile = null;
 			for (int i = 0; i < floorPlan.numberOfFloors(); i++) {
 				Tile home = floorPlan.getFloor(i).getHomeTile();

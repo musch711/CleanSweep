@@ -86,7 +86,7 @@ public class CleanSweep {
                     }
                 
     		// Add unvisited surrounding tiles to unvisitedTiles list
-                visitedTiles.addAll(traversed);
+            visitedTiles.addAll(traversed);
     		surroundingTilesToUnvisted();
     		internalMap = addTilesToInternalMap(internalMap);
     	}
@@ -97,7 +97,7 @@ public class CleanSweep {
     	move(homeTile);
         // Once at the charging station re-charge.
     	battery.chargeBattery();
-	LoggingUtility.logRecharge();    	
+    	LoggingUtility.logRecharge();    	
     	
         return internalMap;
     }

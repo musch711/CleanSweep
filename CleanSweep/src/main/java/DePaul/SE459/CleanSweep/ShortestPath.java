@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.PriorityQueue;
 
-
 /*
  * ShortestPath class - calculates the shortest path, where weight = power consumption over the distance traveled
  * Tile coordinates = the vertices
@@ -356,7 +355,7 @@ class Edge{
 	public Vertex getEndingVertex(){
 		return endingVertex;
 	}
-
+	
 	public double getWeight(){
 		return weight;
 	}
