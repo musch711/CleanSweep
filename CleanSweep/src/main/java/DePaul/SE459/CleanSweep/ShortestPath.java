@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.PriorityQueue;
 
+
 /*
  * ShortestPath class - calculates the shortest path, where weight = power consumption over the distance traveled
  * Tile coordinates = the vertices
@@ -75,8 +76,8 @@ public class ShortestPath {
 		}
 		//set the pathTemp weight:
 		int size = pathTemp.size();
-		double totalWeight = pathTemp.get(size-1).getDistanceFromSource();
-		setWeightOfShortestPath(totalWeight);
+		//double totalWeight = pathTemp.get(size-1).getDistanceFromSource();
+		//setWeightOfShortestPath(totalWeight);
 
 		Vertex v;
 		v = pathTemp.get(pathTemp.size()-1);
@@ -87,6 +88,7 @@ public class ShortestPath {
 			while(v!=pathTemp.get(0)){
 				v = v.getParent();
 				shortestVertexPath.add(v);
+
 			}
 		}
 		Collections.reverse(shortestVertexPath); //reverse it so that it's in order from source to destination
@@ -97,6 +99,14 @@ public class ShortestPath {
 			shortestPathInTiles.add(shortestVertexPath.get(i).getTile());
 		}
 		this.shortestPath = shortestPathInTiles;
+
+		//set the shortest path weight
+		double pathWeight = 0;
+		for(int i = 0; i<shortestVertexPath.size()-1; i++){
+			double weight = getWeightOfEdge(shortestVertexPath.get(i), shortestVertexPath.get(i+1));
+			pathWeight+=weight;
+		}
+		setWeightOfShortestPath(pathWeight);
 	}
 	/*
 	 * getShortestPath()
@@ -110,17 +120,18 @@ public class ShortestPath {
 	 */
 	public void printShortestPath(){
 		for(int i = 0; i<shortestPath.size(); i++){
-			System.out.println(shortestPath.get(i).toString());
+			System.out.println("("+shortestPath.get(i).getX()+", "+shortestPath.get(i).getY()+")");
 		}
 	}
 
 	private void setWeightOfShortestPath(double weight){
-		if(weightOfShortestPath==Double.POSITIVE_INFINITY){
+		/*if(weightOfShortestPath==Double.POSITIVE_INFINITY){
 			weightOfShortestPath = weight;
 		}
 		else{
 			weightOfShortestPath += weight;
-		}
+		}*/
+		weightOfShortestPath = weight;
 	}
 
 	public double getWeightOfShortestPath(){
@@ -132,7 +143,7 @@ public class ShortestPath {
 	 * getWeightOfEdge - looks for a specific edge in the allEdges arrayList 
 	 * @return the weight of that edge between 2 vertices
 	 */
-	public double getWeightOfEdge(Vertex vertexA, Vertex vertexB){
+	private double getWeightOfEdge(Vertex vertexA, Vertex vertexB){
 		Edge getEdge;
 		for(int i = 0; i<allEdges.size(); i++){
 			if(allEdges.get(i).isEdgeBetween(vertexA, vertexB)){
@@ -144,11 +155,11 @@ public class ShortestPath {
 		return Double.POSITIVE_INFINITY;
 	}
 
-	public List<Edge> getAllEdges(){
+	private List<Edge> getAllEdges(){
 		return allEdges;
 	}
 
-	public List<Vertex> getAllVertices(){
+	private List<Vertex> getAllVertices(){
 		return allVertices;
 	}
 
@@ -164,9 +175,18 @@ public class ShortestPath {
 			//if the tile is not the source or destination, then create a vertex
 			//and add to the allVertices array and add to pq
 			if(!(visitedTiles.get(i).sameTile(source)|| visitedTiles.get(i).sameTile(destination))){
-				Vertex createVertex = new Vertex(visitedTiles.get(i));
-				allVertices.add(createVertex); 
-				pq.add(createVertex);
+				//if the tile was not already added, then add it
+				boolean wasAdded = false;
+				for(int j=0; j<i; j++){
+					if(visitedTiles.get(i).sameTile(visitedTiles.get(j))) wasAdded = true;
+				}
+				if(!wasAdded){
+					Vertex createVertex = new Vertex(visitedTiles.get(i));
+					allVertices.add(createVertex); 
+					pq.add(createVertex);
+
+
+				}
 			}
 		}
 	}
@@ -355,7 +375,7 @@ class Edge{
 	public Vertex getEndingVertex(){
 		return endingVertex;
 	}
-	
+
 	public double getWeight(){
 		return weight;
 	}
