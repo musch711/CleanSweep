@@ -74,10 +74,6 @@ public class ShortestPath {
 				}
 			}
 		}
-		//set the pathTemp weight:
-		int size = pathTemp.size();
-		//double totalWeight = pathTemp.get(size-1).getDistanceFromSource();
-		//setWeightOfShortestPath(totalWeight);
 
 		Vertex v;
 		v = pathTemp.get(pathTemp.size()-1);
@@ -116,14 +112,14 @@ public class ShortestPath {
 		return shortestPath;
 	}
 	/*
-	 * For testing purposes - prints the shortest path to the console
-	 */
+	  For testing purposes - prints the shortest path to the console
+
 	public void printShortestPath(){
 		for(int i = 0; i<shortestPath.size(); i++){
 			System.out.println("("+shortestPath.get(i).getX()+", "+shortestPath.get(i).getY()+")");
 		}
 	}
-
+	 */
 	private void setWeightOfShortestPath(double weight){
 		/*if(weightOfShortestPath==Double.POSITIVE_INFINITY){
 			weightOfShortestPath = weight;
@@ -154,7 +150,7 @@ public class ShortestPath {
 		}		
 		return Double.POSITIVE_INFINITY;
 	}
-
+	/*
 	private List<Edge> getAllEdges(){
 		return allEdges;
 	}
@@ -162,7 +158,7 @@ public class ShortestPath {
 	private List<Vertex> getAllVertices(){
 		return allVertices;
 	}
-
+	 */
 	private void setAllVertices(Tile source, Tile destination, List<Tile> visitedTiles){
 		//set the source vertex's distanceToSource to 0 (because it's the source)
 		//keep destination vertex distanceToSource to POSITIVE_INFINITY
@@ -193,14 +189,13 @@ public class ShortestPath {
 
 	/*
 	 * For testing purposes - prints all vertices to console
-	 */
 	public void printAllVerticesToConsole(){
 		System.out.println("All vertices: ");
 		for(int i = 0; i<allVertices.size(); i++){
 			System.out.println(allVertices.get(i).toString());
 		}
 	}
-
+	 */
 	private void setAllEdges(List<Vertex> allVertices){
 		for(int i = 0; i < allVertices.size(); i++){
 			//go down the array and look for each vertex's neighbor
@@ -280,14 +275,14 @@ public class ShortestPath {
 
 	/*
 	 * For testing purposes - prints all edges with weights to console
-	 */
+	 
 	public void printAllEdgesToConsole(){
 		System.out.println("All edges: ");
 		for(int i = 0; i<allEdges.size(); i++){
 			System.out.println(allEdges.get(i).toString());
 		}
 	}
-
+	*/
 }
 
 class Vertex implements Comparable<Vertex>{
@@ -389,9 +384,10 @@ class Edge{
 	}
 
 	/*
-	 * For testing purposes - returns String of Edge's vertices and weights
-	 */
+	  For testing purposes - returns String of Edge's vertices and weights
+
 	public String toString(){
 		return "Edge between "+startingVertex.toString()+" and "+endingVertex.toString()+" --- weight="+weight;
 	}
+	 */
 }
