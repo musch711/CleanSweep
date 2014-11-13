@@ -215,8 +215,7 @@ public class Tile {
 	}
 	
 	/**
-	 * TODO: Since there is a requirement that the Clean Sweep not know how dirty something is,
-	 * should this return a boolean, true if ds > 0, false if ds = 0?
+	 * Returns the amount of dirt present on this Tile.
 	 * @return The amount of dirt in the Tile.
 	 */
 	public int getDirtAmount() {

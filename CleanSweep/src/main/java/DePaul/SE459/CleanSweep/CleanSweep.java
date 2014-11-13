@@ -47,7 +47,7 @@ public class CleanSweep {
         currentTile.setDirtAmount(0);
     	
         //while unvisitedTiles is not empty
-    	while(!unvisitedTiles.isEmpty()) // TODO this may loop forever if some unvisited tiles are inaccessible
+    	while(!unvisitedTiles.isEmpty())
     	{
     		Tile nextTile = getNextTile(unvisitedTiles);
 

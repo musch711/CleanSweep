@@ -10,7 +10,7 @@ import java.util.Map;
 import org.w3c.dom.Document;
 
 public class Simulator {
-	public static void main(String args[]) {
+	public static void main(String[] args) {
 		String filePath;
 		if (args.length == 0) {
 			filePath = "floorplans//samplehome0.xml";
