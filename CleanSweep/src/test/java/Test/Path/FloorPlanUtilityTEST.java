@@ -1,4 +1,4 @@
-package DePaul.SE459.Simulator;
+package Test.Path;
 
 import java.io.BufferedReader;
 import java.io.StringReader;
@@ -82,6 +82,13 @@ public class FloorPlanUtilityTEST extends TestCase {
 				int ssIndex = line.indexOf("ss='") + 4;
 				String ss = line.substring(ssIndex, line.indexOf("'", ssIndex));
 				int surface = Integer.parseInt(ss);
+				
+				// high pile carpet weight is different from representation in XML file
+				if (surface == 4)
+				{
+					surface = 3;
+				}
+				
 				assertEquals(surface, tile.getSurfaceType());
 
 				int psIndex = line.indexOf("ps='") + 4;

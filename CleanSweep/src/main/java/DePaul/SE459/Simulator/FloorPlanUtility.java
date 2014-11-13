@@ -58,6 +58,11 @@ public class FloorPlanUtility {
 						int yPos = Integer.parseInt(cellElements.getAttribute("ys"));
 						int surface = Integer.parseInt(cellElements.getAttribute("ss"));
 
+						// high pile carpet cost is not the same as its representation in the XML
+						if (surface == 4) {
+							surface = 3;
+						}
+
 						String paths = cellElements.getAttribute("ps");
 
 						int right = Integer.parseInt(paths.substring(0, 1));
