@@ -79,6 +79,7 @@ public class CleanSweep {
                         if (dirtMeter.emptyMeLightIsOn())
                             break;
                         dirtMeter.cleanOneDirtUnitFromTile(currentTile);
+                        LoggingUtility.logDiscoveredCell("Current Dirt level at (" + currentTile.getX() + ", " + currentTile.getY() + ") is " + currentTile.getDirtAmount() );
                     }
                     if (currentTile.getDirtAmount()<=0)
                     {
@@ -200,37 +201,7 @@ public class CleanSweep {
             availableMoves.add(currentPos.getLowerTile());
         return availableMoves;
     }
-        
-    /**
-	 * Calculates the shortest distance to the destination tile
-	 * given a list of tiles that the vacuum can move to.
-	 * @param d The destination tile
-	 * @param prospectiveTiles list of tiles that can be reached from the current tile
-	 * @return Tile The tile the vacuum should move to next
-	 */
-    private Tile getNextTile(Tile d, List<Tile> prospectiveTiles)
-    {
-        Tile nextTile = prospectiveTiles.get(0);
-        double shortestDistance = Double.MAX_VALUE;
-        //System.out.println("Distance Begin");
-        //LoggingUtility.logMovement(d);
-        for (Tile t : prospectiveTiles)
-        {
-            double currentDistance = d.distance(t);
-            if (currentDistance < shortestDistance)
-            {
-                nextTile = t;
-                shortestDistance = currentDistance;
-            }
-            
-            //LoggingUtility.logMovement(t);
-            //System.out.println(currentDistance);
-
-        }
-        //System.out.println("Distance End");
-        return nextTile;
-    }
-    
+          
     /**
 	 * Determines which tile from the unvisitedTiles list is closest
 	 * to the currentTile.
