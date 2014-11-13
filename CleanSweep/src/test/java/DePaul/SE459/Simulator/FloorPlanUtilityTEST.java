@@ -1,4 +1,4 @@
-package Test.Path;
+package DePaul.SE459.Simulator;
 
 import java.io.BufferedReader;
 import java.io.StringReader;
