@@ -4,9 +4,9 @@ import DePaul.SE459.CleanSweep.DiscoverPaths;
 import DePaul.SE459.CleanSweep.Tile;
 import junit.framework.TestCase;
 
-public class DiscoverPathsTest extends TestCase{
+public class DiscoverPathsTest2 extends TestCase{
 
-	public DiscoverPathsTest(String name){
+	public DiscoverPathsTest2(String name){
 		super(name);
 	}
 	//								  r  l  u  d
