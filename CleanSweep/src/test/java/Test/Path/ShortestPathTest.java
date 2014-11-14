@@ -7,9 +7,9 @@ import DePaul.SE459.CleanSweep.ShortestPath;
 import DePaul.SE459.CleanSweep.Tile;
 import junit.framework.TestCase;
 
-public class ShortestPathTest2 extends TestCase{
+public class ShortestPathTest extends TestCase{
 
-	public ShortestPathTest2(String name){
+	public ShortestPathTest(String name){
 		super(name);
 
 
