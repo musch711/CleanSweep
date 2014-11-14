@@ -11,9 +11,9 @@ import DePaul.SE459.CleanSweep.Tile;
 import DePaul.SE459.Simulator.FloorPlanUtility;
 import junit.framework.TestCase;
 
-public class FloorPlanUtilityTEST extends TestCase {
+public class FloorPlanUtilityTest extends TestCase {
 
-	public FloorPlanUtilityTEST(String name) {
+	public FloorPlanUtilityTest(String name) {
 		super(name);
 	}
 
