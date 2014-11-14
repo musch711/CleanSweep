@@ -157,4 +157,9 @@ public class BatteryManager {
             System.out.println("Path Weight: " + pathWeight);
             return pathWeight <= MAX_BATTERY_CAPACITY;
         }
+        
+        public double getBatteryLevel()
+        {
+            return this.currentBatteryLevel;
+        }
 }
