@@ -4,9 +4,9 @@ import DePaul.SE459.CleanSweep.DirtMeterUtility;
 import DePaul.SE459.CleanSweep.Tile;
 import junit.framework.TestCase;
 
-public class DirtMeterUtilityTEST extends TestCase {
+public class DirtMeterUtilityTest extends TestCase {
 
-	public DirtMeterUtilityTEST(String name){
+	public DirtMeterUtilityTest(String name){
 		super(name);
 	}
 	

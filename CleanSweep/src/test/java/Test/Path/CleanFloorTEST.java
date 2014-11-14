@@ -10,9 +10,9 @@ import DePaul.SE459.CleanSweep.Tile;
 import DePaul.SE459.Simulator.FloorPlanUtility;
 import junit.framework.TestCase;
 
-public class CleanFloorTEST extends TestCase
+public class CleanFloorTest extends TestCase
 {
-	public CleanFloorTEST(String name)
+	public CleanFloorTest(String name)
 	{
 		super(name);
 	}

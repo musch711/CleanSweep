@@ -18,9 +18,9 @@ import DePaul.SE459.CleanSweep.Tile;
  * NOTE: The logging files (cleaning.txt, movement.txt, logDiscoveredCell.txt, logDiscoveredFloorPlan.txt)
  * need to be deleted and should not exist when LoggingUtilityTEST is run.
  */
-public class LoggingUtilityTEST extends TestCase{
+public class LoggingUtilityTest extends TestCase{
 
-	public LoggingUtilityTEST(String name){
+	public LoggingUtilityTest(String name){
 		super(name);
 	}
 
