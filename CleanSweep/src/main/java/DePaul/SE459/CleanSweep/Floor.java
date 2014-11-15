@@ -47,45 +47,4 @@ public class Floor {
 	public void setTiles(Map<Integer, Tile> t) {
 		this.tiles = t;
 	}
-
-	public void buildAdjacentTiles() {
-		Iterator<Entry<Integer, Tile>> it = tiles.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry<Integer, Tile> pairs = it.next();
-			Tile currentTile = pairs.getValue();
-
-			if (currentTile.isChargingStation()) {
-				setHomeTile(currentTile);
-			}
-
-			if (currentTile.getRightPath() < 2) {
-				Tile rightTile = getTile(currentTile.getX() + 1, currentTile.getY());
-
-				if (rightTile != null) {
-					currentTile.setRightTile(rightTile);
-				}
-			}
-			if (currentTile.getLeftPath() < 2) {
-				Tile leftTile = getTile(currentTile.getX() - 1, currentTile.getY());
-
-				if (leftTile != null) {
-					currentTile.setLeftTile(leftTile);
-				}
-			}
-			if (currentTile.getLowerPath() < 2) {
-				Tile lowerTile = getTile(currentTile.getX(), currentTile.getY() - 1);
-
-				if (lowerTile != null) {
-					currentTile.setLowerTile(lowerTile);
-				}
-			}
-			if (currentTile.getUpperPath() < 2) {
-				Tile upperTile = getTile(currentTile.getX(), currentTile.getY() + 1);
-
-				if (upperTile != null) {
-					currentTile.setUpperTile(upperTile);
-				}
-			}
-		}
-	}
 }

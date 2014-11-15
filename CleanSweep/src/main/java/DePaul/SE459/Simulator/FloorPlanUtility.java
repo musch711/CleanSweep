@@ -2,6 +2,9 @@ package DePaul.SE459.Simulator;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -78,11 +81,52 @@ public class FloorPlanUtility {
 					}
 				}
 
-				f.buildAdjacentTiles();
+				buildAdjacentTiles(f);
 			}
 		}
 
 		return floorPlan;
+	}
+
+	public static void buildAdjacentTiles(Floor floor) {
+		Iterator<Entry<Integer, Tile>> it = floor.getTiles().entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<Integer, Tile> pairs = it.next();
+			Tile currentTile = pairs.getValue();
+
+			if (currentTile.isChargingStation()) {
+				floor.setHomeTile(currentTile);
+			}
+
+			if (currentTile.getRightPath() < 2) {
+				Tile rightTile = floor.getTile(currentTile.getX() + 1, currentTile.getY());
+
+				if (rightTile != null) {
+					currentTile.setRightTile(rightTile);
+				}
+			}
+			if (currentTile.getLeftPath() < 2) {
+				Tile leftTile = floor.getTile(currentTile.getX() - 1, currentTile.getY());
+
+				if (leftTile != null) {
+					currentTile.setLeftTile(leftTile);
+				}
+			}
+			if (currentTile.getLowerPath() < 2) {
+				Tile lowerTile = floor.getTile(currentTile.getX(), currentTile.getY() - 1);
+
+				if (lowerTile != null) {
+					currentTile.setLowerTile(lowerTile);
+				}
+			}
+			if (currentTile.getUpperPath() < 2) {
+				Tile upperTile = floor.getTile(currentTile.getX(), currentTile.getY() + 1);
+
+				if (upperTile != null) {
+					currentTile.setUpperTile(upperTile);
+				}
+			}
+		}
 	}
 
 	public static Document loadFromFile(String filePath) throws Exception {
