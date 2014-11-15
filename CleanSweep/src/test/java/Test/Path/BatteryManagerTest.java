@@ -12,9 +12,9 @@ import static junit.framework.Assert.assertEquals;
 import junit.framework.TestCase;
 import org.w3c.dom.Document;
 
-public class BatteryManagerTEST extends TestCase {
+public class BatteryManagerTest extends TestCase {
 
-	public BatteryManagerTEST(String name){
+	public BatteryManagerTest(String name){
 		super(name);
 	}
         

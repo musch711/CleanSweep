@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 public class BatteryManager {
-	private static final int MAX_BATTERY_CAPACITY = 50; 
+	private static final int MAX_BATTERY_CAPACITY = 50;
 	private double currentBatteryLevel;
 	private Tile homeTile;
 	private List<Tile> shortestPath;
@@ -36,27 +36,14 @@ public class BatteryManager {
 		setShortestPathWeight(getPath.getWeightOfShortestPath());
 		costToHome = getShortestPathWeight();
 
-		//System.out.println("Weight of Shortest Path: "+costToHome);
-
 		// if cost to return to charging station is greater than the current battery level
 		// minus the cost of the proposed move, turn back.
-        if(MAX_BATTERY_CAPACITY-costToHome<currentBatteryLevel|| currentBatteryLevel-costToHome<0 || (currentBatteryLevel-costToHome>0 && currentBatteryLevel-nextMoveCost-costFromNext<0)){
-
-			//FOR DEBUGGING:
-			/*System.out.println("currentBatteryLevel-costToHome: "+currentBatteryLevel+"-"+costToHome+ "="+(currentBatteryLevel-costToHome));
-			System.out.println("***\nCurrentBatteryLevel: "+currentBatteryLevel);
-			System.out.println("costFromNext: "+costFromNext);
-			System.out.println("costToHome: "+costToHome);
-			System.out.println("nextMoveCost: "+nextMoveCost);*/
+		if (MAX_BATTERY_CAPACITY - costToHome < currentBatteryLevel || currentBatteryLevel - costToHome < 0
+				|| (currentBatteryLevel - costToHome > 0 && currentBatteryLevel - nextMoveCost - costFromNext < 0)) {
 
 			return true;
 		}
-		//FOR DEBUGGING:
-		/*System.out.println("***\nCurrentBatteryLevel: "+currentBatteryLevel);
-		System.out.println("costFromNext: "+costFromNext);
-		System.out.println("costToHome: "+costToHome);
-		System.out.println("nextMoveCost: "+nextMoveCost);
-		 */
+
 		return false;
 	}
 
@@ -79,11 +66,13 @@ public class BatteryManager {
 			weight = 1;
 		}
 		// if moving from bare floor to low-pile carpet or vice versa
-		else if ((tileA.getSurfaceType() == 1 && tileB.getSurfaceType() == 2) || (tileA.getSurfaceType() == 2 && tileB.getSurfaceType() == 1)) {
+		else if ((tileA.getSurfaceType() == 1 && tileB.getSurfaceType() == 2) || 
+				(tileA.getSurfaceType() == 2 && tileB.getSurfaceType() == 1)) {
 			weight = 1.5;
 		}
 		// if moving from bare to high-pile carpet or vice versa
-		else if ((tileA.getSurfaceType() == 1 && tileB.getSurfaceType() == 4) || (tileA.getSurfaceType() == 4 && tileB.getSurfaceType() == 1)) {
+		else if ((tileA.getSurfaceType() == 1 && tileB.getSurfaceType() == 4) || 
+				(tileA.getSurfaceType() == 4 && tileB.getSurfaceType() == 1)) {
 			weight = 2;
 		}
 		// if moving from low-pile carpet to low-pile carpet
@@ -91,7 +80,8 @@ public class BatteryManager {
 			weight = 2;
 		}
 		// if moving from low-pile carpet to high-pile carpet or vice versa
-		else if ((tileA.getSurfaceType() == 2 && tileB.getSurfaceType() == 4) || (tileA.getSurfaceType() == 4 && tileB.getSurfaceType() == 2)) {
+		else if ((tileA.getSurfaceType() == 2 && tileB.getSurfaceType() == 4) || 
+				(tileA.getSurfaceType() == 4 && tileB.getSurfaceType() == 2)) {
 			weight = 2.5;
 		}
 		// if moving from high-pile carpet to high-pile carpet
@@ -107,7 +97,6 @@ public class BatteryManager {
 	 */
 	public void decrementBatteryLevel(Tile tileA, Tile tileB) {
 		this.currentBatteryLevel -= calculateWeight(tileA, tileB);
-		//System.out.println("Battery level is " + currentBatteryLevel);
 	}
 
 	/**
@@ -117,13 +106,6 @@ public class BatteryManager {
 		this.currentBatteryLevel = MAX_BATTERY_CAPACITY;
 	}
 
-	/*
-	private void setShortestPathAndWeight(Tile src, Tile dest, List<Tile> allVisitedTiles){
-		ShortestPath getPath = new ShortestPath(src, dest, allVisitedTiles);
-		setShortestPath(getPath.getShortestPath());
-		setShortestPathWeight(getPath.getWeightOfShortestPath());
-	}
-	*/
 	public double getShortestPathWeight() {
 		return shortestPathWeight;
 	}
@@ -147,19 +129,17 @@ public class BatteryManager {
 		shortestPath = path;
 	}
 
-        public boolean canReachTile(Tile destinationTile, Tile homeTile, Map<Integer,Tile> internalMap)
-        {
-            List<Tile> internalList = new ArrayList<Tile>(internalMap.values());
-            ShortestPath path = new ShortestPath(destinationTile, homeTile, internalList);
-            //Multiply by two to account for there and back
+	public boolean canReachTile(Tile destinationTile, Tile homeTile, Map<Integer, Tile> internalMap) {
+		List<Tile> internalList = new ArrayList<Tile>(internalMap.values());
+		ShortestPath path = new ShortestPath(destinationTile, homeTile, internalList);
+		
+		//Multiply by two to account for there and back
+		double pathWeight = path.getWeightOfShortestPath() * 2;
+		System.out.println("Path Weight: " + pathWeight);
+		return pathWeight <= MAX_BATTERY_CAPACITY;
+	}
 
-            double pathWeight = path.getWeightOfShortestPath() * 2;
-            System.out.println("Path Weight: " + pathWeight);
-            return pathWeight <= MAX_BATTERY_CAPACITY;
-        }
-        
-        public double getBatteryLevel()
-        {
-            return this.currentBatteryLevel;
-        }
+	public double getBatteryLevel() {
+		return this.currentBatteryLevel;
+	}
 }

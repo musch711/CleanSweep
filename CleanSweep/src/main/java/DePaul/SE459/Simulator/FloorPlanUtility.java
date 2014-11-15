@@ -21,11 +21,14 @@ import DePaul.SE459.CleanSweep.Tile;
 /**
  * This class contains all of the logic related to loading and dumping floor plans to and from files.
  */
-public class FloorPlanUtility {
+public final class FloorPlanUtility {
+	private FloorPlanUtility() {
+
+	}
+
 	/**
 	 * Loads an XML file from disk and parses it into a floor plan.
-	 * 
-	 * @param filePath The file path of the XML file.
+	 * @param doc 
 	 * @return The FloorPlan, complete with Floors and Tiles.
 	 * @throws Exception If there is an IO error or file does not meet predefined floor plan layout.
 	 */

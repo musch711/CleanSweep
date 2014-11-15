@@ -12,14 +12,20 @@ import java.util.Map;
  * Logs activity to console and to file in the tracking directory.
  */
 public final class LoggingUtility {
+	private LoggingUtility() {
+
+	}
+	
+	private static final String MOVEMENT_FILE_NAME = "movement.txt";
+
 	/**
 	 * Logs cleaning action to disk and to console.
 	 * @param x The x-coordinate of the Tile that was cleaned.
 	 * @param y The y-coordinate of the Tile that was cleaned.
 	 */
-	public static void LogCleaning(int x, int y) {
+	public static void logCleaning(int x, int y) {
 		String msg = " Cleaned tile at: (" + x + ", " + y + ")";
-		writeToFile("movement.txt", msg);
+		writeToFile(MOVEMENT_FILE_NAME, msg);
 	}
 
 	/**
@@ -27,98 +33,90 @@ public final class LoggingUtility {
 	 * @param cell A string representing the information of the Tile (ie. <cell x = 0, y = 0, ss = 2, ps = 1212, ds = 1, cs = 1 />)
 	 */
 	public static void logDiscoveredCell(String cell) {
-		writeToFile("movement.txt", cell);
+		writeToFile(MOVEMENT_FILE_NAME, cell);
 	}
 
-		/**
-	 * Logs current location to disk and to console to track Clean Sweep's movement.
-	 * @param int x: The x-coordinate of the Tile that was cleaned.
-	 * @param int y: The y-coordinate of the Tile that was cleaned.
-	 */
-	public static void logMovement(int x, int y){
+	/**
+	* Logs current location to disk and to console to track Clean Sweep's movement.
+	* @param int x: The x-coordinate of the Tile that was cleaned.
+	* @param int y: The y-coordinate of the Tile that was cleaned.
+	*/
+	public static void logMovement(int x, int y) {
 		String msg = "Current location at tile: (" + x + ", " + y + ")";
-		writeToFile("movement.txt", msg);
+		writeToFile(MOVEMENT_FILE_NAME, msg);
 	}
 
 	/**
 	 * Logs current location to disk and to console to track Clean Sweep's movement.
 	 * @param Tile t = the current tile the Clean Sweep is on
 	 */
-	public static void logMovement(Tile t){
-		String msg = "Current location at tile: (" + t.getX() + ", " + t.getY()+ ")";
-		writeToFile("movement.txt", msg);
+	public static void logMovement(Tile t) {
+		String msg = "Current location at tile: (" + t.getX() + ", " + t.getY() + ")";
+		writeToFile(MOVEMENT_FILE_NAME, msg);
 	}
-        
-        public static void logPath(Tile t){
-            String msg = "Shortest Path: (" + t.getX() + ", " + t.getY()+ ")";
-            writeToFile("movement.txt", msg);
+
+	public static void logPath(Tile t) {
+		String msg = "Shortest Path: (" + t.getX() + ", " + t.getY() + ")";
+		writeToFile(MOVEMENT_FILE_NAME, msg);
 	}
-	
+
 	public static void logStart() {
 		String msg = "CleanSweep has started...";
-		writeToFile("movement.txt", msg);
+		writeToFile(MOVEMENT_FILE_NAME, msg);
 	}
-	
+
 	public static void logFinish() {
 		String msg = "CleanSweep has finished.";
-		writeToFile("movement.txt", msg);
+		writeToFile(MOVEMENT_FILE_NAME, msg);
 	}
-      
+
 	public static void logRecharge() {
 		String msg = "CleanSweep has finished recharging.";
-		writeToFile("movement.txt", msg);
+		writeToFile(MOVEMENT_FILE_NAME, msg);
 	}
-	
+
 	public static void logReturn() {
 		String msg = "CleanSweep is returning to charging station.";
-		writeToFile("movement.txt", msg);
+		writeToFile(MOVEMENT_FILE_NAME, msg);
 	}
-	
-    public static void logPath(List<Tile> path)
-    {
-        for (Tile t: path)
-        {
-            LoggingUtility.logMovement(t);
-        }
-    }
-    
-    public static void logInternalMap(Map<Integer,Tile> m)
-    {
-        StringBuilder sb = new StringBuilder();
-        Iterator<Map.Entry<Integer, Tile>> it = m.entrySet().iterator();
-        while (it.hasNext())
-        {
-            Tile t = it.next().getValue();
-            sb.append("Tile: x=").append(t.getX()).append(" y=").append(t.getY());
-            sb.append(" ss=").append(t.getSurfaceType()).append(" ds=").append(t.getDirtAmount()).append("\n");
-        }
-        writeToFile("afterCleaning.txt", sb.toString());
-    }
-        
-    public static void logDiscoveredFloorPlan(FloorPlan fp)
-    {
-        StringBuilder sb = new StringBuilder();
-        
-        List<Floor> floors = fp.getFloors();
-        Iterator<Floor> floorIterator = floors.iterator();
-        while (floorIterator.hasNext())
-        {
-            Floor f = floorIterator.next();
-            sb.append("---Begin Floor ").append(f.getLevel()).append("---\n");
-            Map<Integer,Tile> m = f.getTiles();
-            Iterator<Map.Entry<Integer, Tile>> it = m.entrySet().iterator();
-            while (it.hasNext())
-            {
-                Tile t = it.next().getValue();
-                sb.append("Tile: x=").append(t.getX()).append(" y=").append(t.getY());
-                sb.append(" ss=").append(t.getSurfaceType()).append(" ds=").append(t.getDirtAmount()).append("\n");
-            }
-            sb.append("---End Floor ").append(f.getLevel()).append("---\n");
-        }
-        writeToFile("logDiscoveredFloorPlan.txt", sb.toString());
-    }
-	
-	
+
+	public static void logPath(List<Tile> path) {
+		for (Tile t : path) {
+			LoggingUtility.logMovement(t);
+		}
+	}
+
+	public static void logInternalMap(Map<Integer, Tile> m) {
+		StringBuilder sb = new StringBuilder();
+		Iterator<Map.Entry<Integer, Tile>> it = m.entrySet().iterator();
+		while (it.hasNext()) {
+			Tile t = it.next().getValue();
+			sb.append("Tile: x=").append(t.getX()).append(" y=").append(t.getY());
+			sb.append(" ss=").append(t.getSurfaceType()).append(" ds=").append(t.getDirtAmount()).append("\n");
+		}
+		writeToFile("afterCleaning.txt", sb.toString());
+	}
+
+	public static void logDiscoveredFloorPlan(FloorPlan fp) {
+		StringBuilder sb = new StringBuilder();
+
+		List<Floor> floors = fp.getFloors();
+		Iterator<Floor> floorIterator = floors.iterator();
+		while (floorIterator.hasNext()) {
+			Floor f = floorIterator.next();
+			sb.append("---Begin Floor ").append(f.getLevel()).append("---\n");
+			Map<Integer, Tile> m = f.getTiles();
+			Iterator<Map.Entry<Integer, Tile>> it = m.entrySet().iterator();
+			while (it.hasNext()) {
+				Tile t = it.next().getValue();
+				sb.append("Tile: x=").append(t.getX()).append(" y=").append(t.getY());
+				sb.append(" ss=").append(t.getSurfaceType()).append(" ds=").append(t.getDirtAmount()).append("\n");
+			}
+			sb.append("---End Floor ").append(f.getLevel()).append("---\n");
+		}
+		writeToFile("logDiscoveredFloorPlan.txt", sb.toString());
+	}
+
 	private static void writeToFile(String fileName, String msg) {
 		FileWriter fw;
 		BufferedWriter bw = null;
@@ -136,11 +134,11 @@ public final class LoggingUtility {
 			fw = new FileWriter(outputFile.getPath(), true);
 			bw = new BufferedWriter(fw);
 
-			System.out.println(msg);                                          // COMMENTED OUT TO MAKE DEBUGGING EASIER ... NEED TO UNCOMMENT WHEN DONE DEBUGGING
+			System.out.println(msg);
 			bw.write(msg);
 			bw.write(System.getProperty("line.separator"));
 		} catch (IOException e) {
-			System.out.println("Error when attempting to write to file.");
+			System.out.println("Error when attempting to write to file: " + e.getMessage());
 			e.printStackTrace();
 		} finally {
 			try {

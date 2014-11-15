@@ -1,9 +1,7 @@
 package DePaul.SE459.CleanSweep;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 
 public class Floor {
 	private Map<Integer, Tile> tiles;

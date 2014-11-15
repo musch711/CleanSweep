@@ -9,7 +9,11 @@ import java.util.Map;
 
 import org.w3c.dom.Document;
 
-public class Simulator {
+public final class Simulator {
+	private Simulator() {
+
+	}
+
 	public static void main(String[] args) {
 		String filePath;
 		if (args.length == 0) {

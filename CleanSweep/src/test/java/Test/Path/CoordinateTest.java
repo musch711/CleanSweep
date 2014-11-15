@@ -3,9 +3,9 @@ package Test.Path;
 import DePaul.SE459.CleanSweep.Coordinate;
 import junit.framework.TestCase;
 
-public class CoordinateTEST extends TestCase {
+public class CoordinateTest extends TestCase {
 
-	public CoordinateTEST(String name){
+	public CoordinateTest(String name){
 		super(name);
 	}
 	

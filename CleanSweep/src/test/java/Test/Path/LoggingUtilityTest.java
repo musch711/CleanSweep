@@ -32,12 +32,12 @@ public class LoggingUtilityTest extends TestCase{
 		File f = new File("tracking\\movement.txt");
 		if(f.exists()) f.delete();
 		//write to the movement.txt file
-		LoggingUtility.LogCleaning(1, 1);
-		LoggingUtility.LogCleaning(2, 2);
-		LoggingUtility.LogCleaning(3, 3);
-		LoggingUtility.LogCleaning(4, 4);
-		LoggingUtility.LogCleaning(5, 5);
-		LoggingUtility.LogCleaning(6, 6);
+		LoggingUtility.logCleaning(1, 1);
+		LoggingUtility.logCleaning(2, 2);
+		LoggingUtility.logCleaning(3, 3);
+		LoggingUtility.logCleaning(4, 4);
+		LoggingUtility.logCleaning(5, 5);
+		LoggingUtility.logCleaning(6, 6);
 		
 		//create a buffered reader to read from the movement.txt file
 		BufferedReader reader = new BufferedReader(new FileReader("tracking\\movement.txt"));

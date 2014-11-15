@@ -4,38 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FloorPlan {
-    private List<Floor> floors;
+	private List<Floor> floors;
 
-    public FloorPlan()
-    {
-        floors = new ArrayList<>();
-    }
-    /**
-     *
-     * @param floorNum
-     * @return
-     */
-    public Floor getFloor(int floorNum) {
-        return floors.get(floorNum);
-    }
+	public FloorPlan() {
+		floors = new ArrayList<>();
+	}
 
-     /**
-     *
-     * @return List of Floors
-     */
-    public List<Floor> getFloors() {
-        return this.floors;
-    }
+	public Floor getFloor(int floorNum) {
+		return floors.get(floorNum);
+	}
 
-    /**
-     *
-     * @param f
-     */
-    public void addFloor(Floor f) {
-        this.floors.add(f);
-    }
-    
-    public int numberOfFloors() {
-        return this.floors.size();
-    }
+	public List<Floor> getFloors() {
+		return this.floors;
+	}
+
+	public void addFloor(Floor f) {
+		this.floors.add(f);
+	}
+
+	public int numberOfFloors() {
+		return this.floors.size();
+	}
 }

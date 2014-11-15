@@ -160,7 +160,7 @@ public class Tile {
 	public Tile getRightTile() {
 		return rightTile;
 	}
-	
+
 	/**
 	 * Sets the Tile that is to the right of this Tile.
 	 * @param rt The Tile to set this to. Could be null if the path for this direction is blocked.
@@ -168,7 +168,7 @@ public class Tile {
 	public void setRightTile(Tile rt) {
 		this.rightTile = rt;
 	}
-	
+
 	/**
 	 * @return Returns the Tile that is to the left of this Tile. Could be null if the path in this direction is blocked.
 	 */
@@ -183,14 +183,14 @@ public class Tile {
 	public void setLeftTile(Tile lt) {
 		this.leftTile = lt;
 	}
-	
+
 	/**
 	 * @return Returns the Tile that is below this Tile. Could be null if the path in this direction is blocked.
 	 */
 	public Tile getLowerTile() {
 		return lowerTile;
 	}
-	
+
 	/**
 	 * Sets the Tile that is below this Tile.
 	 * @param lt The Tile to set this to. Could be null if the path for this direction is blocked.
@@ -198,7 +198,7 @@ public class Tile {
 	public void setLowerTile(Tile lt) {
 		this.lowerTile = lt;
 	}
-	
+
 	/**
 	 * @return Returns the Tile that is above this Tile. Could be null if the path in this direction is blocked.
 	 */
@@ -213,7 +213,7 @@ public class Tile {
 	public void setUpperTile(Tile ut) {
 		this.upperTile = ut;
 	}
-	
+
 	/**
 	 * Returns the amount of dirt present on this Tile.
 	 * @return The amount of dirt in the Tile.
@@ -245,8 +245,6 @@ public class Tile {
 		this.chargingStation = isCs;
 	}
 
-
-
 	/**
 	* 
 	* This method returns the HashCode from the Coordinate object.
@@ -257,21 +255,19 @@ public class Tile {
 	public Integer getCoordinateHashCode() {
 		return (Integer) this.coordinate.hashCode();
 	}
-        
-    /*
-    * This method returns true if the tiles are the same, otherwise false
-    * @param t The tile to compare with
-    * @return boolean
-    */
-    public boolean sameTile(Tile t)
-    {
-        return this.getX()==t.getX()&&this.getY()==t.getY();
-    }
-    
-    public double distance(Tile t)
-    { 
-        double x = Math.pow(this.getX()-t.getX(), 2);
-        double y = Math.pow(this.getY()-t.getY(), 2);
-        return Math.sqrt(x+y);
-    }
+
+	/*
+	* This method returns true if the tiles are the same, otherwise false
+	* @param t The tile to compare with
+	* @return boolean
+	*/
+	public boolean sameTile(Tile t) {
+		return this.getX() == t.getX() && this.getY() == t.getY();
+	}
+
+	public double distance(Tile t) {
+		double x = Math.pow(this.getX() - t.getX(), 2);
+		double y = Math.pow(this.getY() - t.getY(), 2);
+		return Math.sqrt(x + y);
+	}
 }
