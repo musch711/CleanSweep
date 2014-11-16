@@ -6,9 +6,6 @@ import DePaul.SE459.CleanSweep.FloorPlan;
 import DePaul.SE459.CleanSweep.Tile;
 import DePaul.SE459.Simulator.FloorPlanUtility;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import static junit.framework.Assert.assertEquals;
 import junit.framework.TestCase;
 import org.w3c.dom.Document;
 
