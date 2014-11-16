@@ -9,7 +9,7 @@ The project has been separated into two packages.
 		-- Reads in an xml floor plan
 		-- Runs the CleanSweep 
 
-To run the program, you can do via the terminal.
+To run the program, you can do so via the terminal.
 
 Change directory to CleanSweepWithMaven/CleanSweep
 
@@ -18,7 +18,7 @@ Change directory to CleanSweepWithMaven/CleanSweep
 
 Then copy/move the "floorplans" directory from the CleanSweepWithMaven/CleanSweep directory into "target" directory
 
->>cd target
+>> cd target
 >> java -jar CleanSweep-1.jar
 
 This will create a "tracking" directory within the "target" directory.
