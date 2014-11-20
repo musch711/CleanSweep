@@ -26,7 +26,7 @@ It will contain all of the output.
 - afterCleaning.txt
 	-- All of the tiles that the vacuum has cleaned
 - movement.txt
-	-- All of the tiles that the vacuum has visited
+	-- This file contains a history of the vacuum's movement.  It also indicates when the vacuum needs to recharge or needs to be emptied.
 
 
 
