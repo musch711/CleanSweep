@@ -27,3 +27,19 @@ It will contain all of the output.
 	-- All of the tiles that the vacuum has cleaned
 - movement.txt
 	-- All of the tiles that the vacuum has visited
+
+
+
+Link to Github Repository:
+
+https://github.com/musch711/CleanSweepWithMaven
+
+
+Link to Jenkins:
+
+http://selab.cdm.depaul.edu/jenkins/job/CleanSweepWithMaven_Daniel_Richard_Steven_Sue/
+
+
+Link to Sonar:
+
+http://selab.cdm.depaul.edu/sonar/dashboard/index/408
