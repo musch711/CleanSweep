@@ -1,4 +1,4 @@
-CleanSweepWithMaven
+CleanSweep
 ===================
 
 The project has been separated into two packages. 
@@ -11,12 +11,12 @@ The project has been separated into two packages.
 
 To run the program, you can do so via the terminal.
 
-Change directory to CleanSweepWithMaven/CleanSweep
+Change directory to CleanSweep
 
 >> mvn clean
 >> mvn package
 
-Then copy/move the "floorplans" directory from the CleanSweepWithMaven/CleanSweep directory into "target" directory
+Then copy/move the "floorplans" directory from the CleanSweep directory into "target" directory
 
 >> cd target
 >> java -jar CleanSweep-1.jar
@@ -32,7 +32,7 @@ It will contain all of the output.
 
 Link to Github Repository:
 
-https://github.com/musch711/CleanSweepWithMaven
+https://github.com/musch711/CleanSweep
 
 
 Link to Jenkins:
