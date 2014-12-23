@@ -1,5 +1,8 @@
 CleanSweep
 ===================
+Agile Software Development
+DePaul University
+Fall 2014
 
 The project has been separated into two packages. 
 - DePaul.SE459.CleanSweep
